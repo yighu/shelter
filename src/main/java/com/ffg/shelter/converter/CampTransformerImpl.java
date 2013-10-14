@@ -293,6 +293,8 @@ public class CampTransformerImpl implements CampTransformer {
         }
         if (campDetailView.getStatus() != null) {
             camp.setStatus(CampConverter.convertCampStatus(campDetailView.getStatus()));
+        } else {
+            camp.setStatus(CampStatus.Active);
         }
 
         Set<CampStats> campStatsList = camp.getCampStats();
@@ -343,7 +345,7 @@ public class CampTransformerImpl implements CampTransformer {
         camp.setLongitude(campDetailView.getLongitude());
         camp.setStreetAddress(campDetailView.getLocation());
         camp.setName(campDetailView.getName());
-        camp.setStatus(CampStatus.Active);
+
         return camp;
     }
 
