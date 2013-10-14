@@ -1,0 +1,44 @@
+<section id="notes" data-transition="slide" xmlns="http://www.w3.org/1999/html">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <!--<a href="#/">Back</a>-->
+            <a data-icon="menu" lab-aside="features"></a>
+            <a href="#/client/detail" ng-click="lookback()" data-icon="left"></a>
+        </nav>
+        <nav class="right">
+            <a href="#/addNotes" data-icon="plus"></a>
+        </nav>
+    </header>
+
+    <article class="active  scroll list" id="list">
+        <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+              ng-click="error = null"></span>
+
+        <div align="center">{{caseStatus}}</div>
+        <div ng-hide="caseDataReceived" data-loading="black" class="centered"></div>
+        <ul class="list">
+            <li class="light" ng-click="goToAddNotes()" data-ng-repeat="caseNote in caseNotes">
+                <a class="right button small" ng-click="removeNote(caseNote.id)">Remove</a>
+
+                <h2>Case Mgr:</h2>
+                {{caseNote.caseMngName}}
+
+
+                <h2>Timeline:</h2> {{caseNote.createdDate | date:'short'}}
+                <h2>Housing Stage:</h2>{{caseNote.housingStage}}
+                <h2>Note:</h2> {{caseNote.note}}
+                <br>
+            </li>
+        </ul>
+        <br><br><br><br><br><br>
+    </article>
+
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

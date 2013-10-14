@@ -1,0 +1,713 @@
+<section id="client" data-transition="slide" xmlns="http://www.w3.org/1999/html">
+<header data-title="{{title}}">
+    <nav class="left">
+        <a data-icon="menu" lab-aside="features"></a>
+        <a ng-show="isActive('client/detail')" href="#/clients" data-icon="left"></a>
+        <a ng-show="isActive('client/edit') || isActive('client/editChildren') || isActive('client/editState') || isActive('client/editHouse') || isActive('client/editContact') || isActive('client/addCaseNotes')"
+           href="{{cancelHref}}" ng-click="cancel()" data-icon="close"></a>
+    </nav>
+
+    <nav class="right">
+        <!--<a class="button small" ng-show="isActive('client/detail')" href="#/client/edit" ng-click="enterEdit()">Edit</a>-->
+        <a class="button small"
+           ng-show="(isActive('client/edit') || isActive('client/editChildren') || isActive('client/editState') || isActive('client/editHouse' || isActive('client/editContact'))) && (ClntEditFrm.$valid && editStateFrm.$valid && editHouseFrm.$valid && editContact.$valid)"
+           ng-click="createOrUpdate()">{{editAction}}</a>
+
+        <!--<a ng-show="nav.text" href="{{nav.href}}" class="button ng-binding" data-icon="{{nav.icon}}" ng-click="navClick()" ng-bind="nav.text"></a>-->
+    </nav>
+</header>
+
+<article id="detail" class="active scroll">
+
+    <div ng-show="waitingForClientData" data-loading="black" class="centered"></div>
+
+    <div ng-hide="waitingForClientData">
+    <span ng-show="client && client.id" ng-switch on="imgStatus">
+        <img ng-switch-when="loaded" fallback-src="images/ClientIcon.png" data-ng-src="{{imageURL(client.id)}}"
+             width="200">
+        <img ng-switch-when="loading" fallback-src="images/ClientIcon.png" data-ng-src="loader_blue_256.gif"
+             width="200">
+        <img ng-switch-default fallback-src="images/ClientIcon.png" data-ng-src="{{imageURL(client.id)}}" width="200">
+    </span>
+
+
+        <br><br>
+        <button class="small" ng-show="client.imageROI == 'Acquired'  && isHybrid()" type="file"
+                ng-click="uploadPicture(client.id, 'camera')">Upload
+            camera
+            picture
+        </button>
+        <button class="small" ng-show="client.imageROI == 'Acquired' && isHybrid()" type="file"
+                ng-click="uploadPicture(client.id, 'album')">Upload album
+            picture
+        </button>
+
+    </div>
+    <div ng-hide="waitingForClientData">
+        <!---upload button using HTLM5--->
+
+        <div ng-show="client.imageROI == 'Acquired'  && isWeb()">
+            <a class="button small" ng-click="proxyClickTo('file')">Select Picture</a>
+            <!--<input id="file" type="file" -->
+            <!--style="position: absolute; top: 0px; left: 0px; z-index: 2; width: 50%; height: 100%; opacity: 0;">-->
+            <input id="file" type="file" style="margin-left: 2em;visibility: hidden;width: 0;height: 0;"
+                   onchange="var scope = angular.element(this).scope(); scope.uploadHTML5Picture(scope.client.id, this.files[0])"/>
+
+        </div>
+    </div>
+    <div ng-hide="waitingForClientData">
+        <!--<br>-->
+        <!--<button class="small" ng-show="client.imageROI == 'Acquired'  && isWeb()"-->
+        <!--ng-click="uploadHTML5Picture(client.id)" type="submit">Upload Picture-->
+        <!--</button>-->
+
+
+        <!---end HTML5 --->
+        <br><br>
+        <!-- -->
+        <ul class="list">
+
+            <li class="light">
+                <h2>
+                    {{client.firstName}} {{client.lastName}}
+                </h2>
+                <br>
+                <a ng-show="client.alias">Also known as: {{client.alias}}</a>
+            </li>
+        </ul>
+        <br>
+
+
+        <a href="#/notes" class="left button small" ng-click="casenotes()">Case Notes</a>
+
+        <br> <br>
+
+
+        <ul>
+            <li>
+
+                <div class="detail client">
+                    <h2>Description <a href="#/client/edit" class="right editicon" data-icon="pencil"
+                                       ng-click="enterEdit()"></a></h2>
+                    <br>
+
+                    <div>Gender: {{client.gender}}</div>
+                    <div>Status: {{client.status}}</div>
+                    <div>Priority: {{client.priority}}</div>
+                    <div>DOB: {{client.dateOfBirth}}</div>
+                    <br>
+
+                    <div>Picture Release of Information: {{client.imageROI}}</div>
+                    <div>Emergency Contact Release of Information: {{client.contactROI}}</div>
+                    <br>
+
+                    <div>Pregnant: {{client.pregnant}}</div>
+                    <div>Children: {{client.numOfChildren}}</div>
+                    <div>Pets: {{client.numPets}}</div>
+                    <br>
+
+                    <big>Camp(s) <br/></big>
+
+                    <div>Primary Camp: {{primaryCamp}}</div>
+                    <div>Secondary Camp: {{secondaryCamp}}</div>
+                    <div>Case Mgr: {{client.caseMgr}}</div>
+                    <div>Last Contact: {{client.lastContactDate}}</div>
+
+
+                </div>
+
+                <div class="detail client">
+                    <h2>Personal State <a href="#/client/editState" class="right editicon" data-icon="pencil"
+                                          ng-click="enterEditState()"></a></h2>
+                    <br>
+
+                    <div>Immediate Need:</div>
+                    <div ng-show="client.transportation">Transportation</div>
+                    <div ng-show="client.healthCare">HealthCare</div>
+                    <div ng-show="client.food">Food</div>
+                    <div ng-show="client.clothing">Clothing</div>
+                    <div ng-show="client.medicalSupplies">MedicalSupplies</div>
+                    <div ng-show="client.personalHygiene">PersonalHygiene</div>
+                    <div ng-show="client.linkageServices">LinkageToServices</div>
+
+
+                    <br>
+
+                    <div>
+                        Violent: {{client.violentStatus}} <br>
+                        <h6>{{client.violentDescription}}</h6>
+                    </div>
+                    <div>
+                        Substance Abuse: {{client.substanceAbuseStatus}}<br>
+                        <h6>{{client.substanceDescription}}</h6>
+                    </div>
+                    <div>
+                        Health: {{client.healthStatus}}<br>
+                        <h6>{{client.healthStatusDescription}}</h6>
+                    </div>
+                    <div>
+                        Mental: {{client.mentalStatus}}<br>
+                        <h6>{{client.mentalStatusDescription}} </h6>
+                    </div>
+
+                </div>
+
+                <div class="detail client">
+                    <h2>Housing <a href="#/client/editHouse" class="right editicon" data-icon="pencil"
+                                   ng-click="enterEditHouse()"></a></h2>
+                    <br>
+
+                    <div>Attitude toward Housing: {{client.attitudeTowardHousing}}</div>
+                    <div>Housing Stage: {{client.housingStage}}</div>
+                    <div>Barriers to Housing: {{client.barriers}}</div>
+
+                </div>
+
+                <div ng-show="client.contactROI == 'Acquired'" class="detail client">
+                    <h2>Contacts <a href="#/client/editContact" class="right editicon" data-icon="pencil"
+                                    ng-click="enterEditContact()"></a></h2>
+                    <br>
+
+                    <div>Primary Phone: {{client.primaryPhone}}</div>
+                    <div>Secondary Phone: {{client.secondaryPhone}}</div>
+                    <br>
+
+                    <div>Emergency Contact</div>
+                    <div>
+                        <h6>Name: {{client.emergencyContactName}} <br/>
+                            Phone: {{client.emergencyContactPhone}}
+                        </h6>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+
+        <ul>
+            <fieldset>
+                <!--<a href="#client/edit" class="left button"-->
+                <!--ng-click="editClient()">Edit</a>-->
+
+                <a class="right button small"
+                   ng-click="removeClient()">Remove</a>
+            </fieldset>
+
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</article>
+
+<article id="edit" class="scroll">
+    <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+          ng-click="error = null"></span>
+
+    <span ng-show="error" ng-repeat="(name, message) in errors" class="button anchor cancel"
+          data-label="{{name}} -> {{message}}"
+          data-action="error"></span>
+
+    <ul>
+        <li>
+            <form name="ClntEditFrm" class="form">
+                <fieldset>
+                    <label class="label">First Name</label> <br>
+                    <input type="text" ng-maxlength=30 data-ng-model="client.firstName" name="firstName"
+                           ng-required="true">
+                    <span ng-show="ClntEditFrm.firstName.$error.required"
+                          style="color:red;font-size:12px;"> *Required</span>
+                    <span ng-show="ClntEditFrm.firstName.$error.maxlength" style="color:red;font-size:12px;"> Max 30 Characters</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Last Name</label> <br>
+                    <input type="text" ng-maxlength=30 data-ng-model="client.lastName" name="lastName"
+                           ng-required="true">
+                    <span ng-show="ClntEditFrm.lastName.$error.required"
+                          style="color:red;font-size:12px;"> *Required</span>
+                    <span ng-show="ClntEditFrm.lastName.$error.maxlength" style="color:red;font-size:12px;"> Max 30 Characters</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Alias</label>
+                    <input type="text" ng-minlength=0 ng-maxlength=30 data-ng-model="client.alias">
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Gender</label> <br> <br>
+                    <input type="radio" data-ng-model="client.gender" name="gender" value="Male"> <span
+                        class="inputlabel" ng-required="true">Male</span>
+                    <input type="radio" data-ng-model="client.gender" name="gender" value="Female"><span
+                        class="inputlabel">Female</span>
+                </fieldset>
+
+
+                <fieldset>
+                    <label class="label">Status</label>
+                    <label class="select">
+                        <select ng-model="client.status" ng-options="status for status in statuses">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <div>
+                        <div class="align_left">
+                            <label class="label">Priority</label>
+                        </div>
+                        <div class="align_right">
+                            <label class="select">
+                                <select class="custom" data-ng-model="client.priority"
+                                        ng-options="clientPriority for clientPriority in clientPriorities">
+                                    <option style="display:none" value="">Please Select</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+                <fieldset>
+                    <label class="label">DOB MM/DD/YYYY</label> <br>
+                    <input type="text" data-ng-model="client.dateOfBirth" name="dob" ng-required="true"
+                           ng-pattern='/^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d)$/'>
+                    <span ng-show="ClntEditFrm.dob.$error.pattern" style="color:red;font-size:12px;">Incorrect date format</span>
+                </fieldset>
+
+
+                <fieldset>
+                    <label class="label">Picture Release of Information</label> <br> <br>
+                    <input type="radio" data-ng-model="client.imageROI" name="imageROI" value="Acquired"> <span
+                        class="inputlabel">Acquired</span>
+                    <input type="radio" data-ng-model="client.imageROI" name="imageROI" value="Not Acquired"><span
+                        class="inputlabel">Not Acquired</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Emergency Contract Release of Information</label> <br> <br>
+                    <input type="radio" data-ng-model="client.contactROI" name="contactROI" value="Acquired"> <span
+                        class="inputlabel">Acquired</span>
+                    <input type="radio" data-ng-model="client.contactROI" name="contactROI" value="Not Acquired"><span
+                        class="inputlabel">Not Acquired</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Pregnant</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.pregnant"
+                                ng-options="pregnantStage for pregnantStage in pregnantStages">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Number of Children</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.numOfChildren" ng-options="numOfChildren for
+                                                                                    numOfChildren in numOfChildren">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Number of Pets</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.numPets"
+                                ng-options="numPets for numPets in numPets">
+                            <option style="display:none" value="">Please Select</option>
+
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Last Contact Date MM/DD/YYYY</label> <br> <br>
+                    <input type="text" data-ng-model="client.lastContactDate" name="lcd" ng-required="true"
+                           ng-pattern='/^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d)$/'>
+                    <span ng-show="ClntEditFrm.lcd.$error.required" style="color:red;font-size:12px;">*Required</span>
+                    <span ng-show="ClntEditFrm.lcd.$error.pattern" style="color:red;font-size:12px;">Incorrect date format</span>
+                </fieldset>
+
+
+                <fieldset id='camp1'>
+                    <label class="label">Camp 1</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.primaryCamp"
+                                ng-options="o  for o in campsNamesList">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset id="camp2" class="last">
+                    <label class="label">Camp 2</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.secondaryCamp"
+                                ng-options="o  for o in campsNamesList">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Case Mgr</label>
+                    <label class="select">
+                        <select class="custom" ng-required="true" ng-model="client.caseMgr"
+                                ng-options="o for o in caseMgrList">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+
+            </form>
+        </li>
+        <li>
+            <div>
+                <a href="#client/editState" ng-hide="!ClntEditFrm.$valid" type="submit" class="right button"
+                   ng-click="enterEditState()">Next</a>
+            </div>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </li>
+    </ul>
+
+</article>
+
+
+<!--<article id="editChildren" class="scroll">
+<div>
+<a href="#" class="button anchor">Add Child</a>
+</div>
+
+<ul>
+<li ng-repeat="child in client.children" class="form">
+
+<fieldset>
+   <a href="#" class="right button">Edit</a>
+
+   <div>{{child.firstName}} {{child.lastName}}</div>
+   <div ng-switch on="child.gender">
+       <i ng-switch-when="Male">Boy</i>
+       <i ng-switch-when="Female">Girl</i>
+   </div>
+   <div ng-switch on="child.present">
+       <i ng-switch-when="true">Present</i>
+       <i ng-switch-when="false">Not Present</i>
+   </div>
+</fieldset> -->
+
+<!--<div class="form" >-->
+
+<!--<fieldset >-->
+<!--<label class="label">First Name</label>-->
+<!--<input type="text" data-ng-model="c.firstName">-->
+<!--</fieldset>-->
+
+<!--<fieldset >-->
+<!--<label class="label">Last Name</label>-->
+<!--<input type="text" data-ng-model="c.lastName">-->
+<!--</fieldset>-->
+
+<!--<fieldset >-->
+<!--<label class="label">DOB</label>-->
+<!--Need date picker here <br/>-->
+<!--</fieldset>-->
+
+<!--<fieldset >-->
+<!--<input type="radio" data-ng-model="c.gender" value="Male">Male-->
+<!--<input type="radio" data-ng-model="c.gender" value="Female">Female-->
+<!--</fieldset>-->
+
+<!--<fieldset >-->
+<!--<label class="label">Child present?</label>  <br/>-->
+<!--<input type="radio" data-ng-model="c.present" value="Y">Y-->
+<!--<input type="radio" data-ng-model="c.present" value="N">N-->
+<!--</fieldset>-->
+
+<!--</div>-->
+<!--</li>
+
+       <li>
+           <fieldset>
+               <a href="#client/edit" class="left button" ng-click="enterEdit()">Previous</a>
+               <a href="#client/editState" class="right button" ng-click="enterEditState()">Next</a>
+           </fieldset>
+       </li>
+
+       <ul>
+           <li></li>
+           <li></li>
+           <li></li>
+           <li></li>
+           <li></li>
+       </ul>
+   </ul>
+
+</article> -->
+
+<article id="editState" class="scroll">
+    <ul>
+        <li>
+            <form name="editStateFrm" class="form">
+
+                <fieldset>
+                    <label class="label">Immediate Needs</label> <br/> <br/>
+                    <!--<label class="select">
+                        <!--<select class="custom" data-ng-model="client.need"
+                                ng-options="need for need in needs">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+
+                    </label>-->
+                    <input type="checkbox" data-ng-model="client.transportation" value="Transportation"><span
+                        class="inputlabel">Transportation</span> <br>
+                    <input type="checkbox" data-ng-model="client.healthCare" value="HealthCare"><span
+                        class="inputlabel">Health care</span> <br>
+                    <input type="checkbox" data-ng-model="client.food" value="Food"><span
+                        class="inputlabel">Food</span> <br>
+                    <input type="checkbox" data-ng-model="client.clothing" value="Clothing"><span
+                        class="inputlabel">Clothing</span> <br>
+                    <input type="checkbox" data-ng-model="client.medicalSupplies" value="MedicalSupplies"><span
+                        class="inputlabel">Medical Supplies</span> <br>
+                    <input type="checkbox" data-ng-model="client.personalHygiene" value="PersonalHygiene"><span
+                        class="inputlabel">Personal Hygiene</span> <br>
+                    <input type="checkbox" data-ng-model="client.linkageServices" value="LinkageToServices"><span
+                        class="inputlabel">Linkage to Services</span> <br>
+
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Violent</label> <br/> <br/>
+                    <input type="radio" data-ng-model="client.violentStatus" value="Not Aggressive"><span
+                        class="inputlabel">Not Aggressive</span>
+                    <input type="radio" data-ng-model="client.violentStatus" value="Aggressive"><span
+                        class="inputlabel">Aggressive</span>
+                    <br/>
+                </fieldset>
+                <fieldset>
+                    <label class="label">Violent Description </label> <br/> <br/>
+                    <input type="text" ng-maxlength=1000 data-ng-model="client.violentDescription" name="vlntDesc">
+                    <span ng-show="editStateFrm.vlntDesc.$error.maxlength" style="color:red;font-size:12px;"> Max 50 Characters</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Substance Abuse</label> <br/> <br/>
+                    <input type="radio" data-ng-model="client.substanceAbuseStatus" value="None"><span
+                        class="inputlabel">None</span>
+                    <input type="radio" data-ng-model="client.substanceAbuseStatus" value="Some"><span
+                        class="inputlabel">Some</span>
+                    <input type="radio" data-ng-model="client.substanceAbuseStatus" value="Frequent"><span
+                        class="inputlabel">Frequent</span>
+                    <br/>
+                </fieldset>
+                <fieldset>
+                    <label class="label">Substance Abuse Description </label> <br/> <br/>
+                    <input type="text" ng-minlength=1 ng-maxlength=1000 data-ng-model="client.substanceDescription"
+                           name="SAD">
+                    <span ng-show="editStateFrm.SAD.$error.maxlength" style="color:red;font-size:12px;">Max 50 Characters</span>
+                </fieldset>
+
+
+                <fieldset>
+                    <label class="label">Health Status</label> <br/> <br/>
+                    <input type="radio" data-ng-model="client.healthStatus" value="Good"><span
+                        class="inputlabel">Good</span>
+                    <input type="radio" data-ng-model="client.healthStatus" value="Medium"><span class="inputlabel">Medium</span>
+                    <input type="radio" data-ng-model="client.healthStatus" value="Bad"><span
+                        class="inputlabel">Bad</span>
+                    <br/>
+                </fieldset>
+                <fieldset>
+                    <label class="label">Health Status Description </label> <br/> <br/>
+                    <input type="text" ng-maxlength=1000 data-ng-model="client.healthStatusDescription" name="HSD">
+                    <span ng-show="editStateFrm.HSD.$error.maxlength" style="color:red;font-size:12px;">Max 50 Characters</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Mental Health</label> <br/> <br/>
+                    <input type="radio" data-ng-model="client.mentalStatus" value="Good"><span
+                        class="inputlabel">Good</span>
+                    <input type="radio" data-ng-model="client.mentalStatus" value="Coping"><span class="inputlabel">Coping</span>
+                    <input type="radio" data-ng-model="client.mentalStatus" value="NotCoping"><span
+                        class="inputlabel">Not Coping</span><br>
+                    <input type="radio" data-ng-model="client.mentalStatus" value="hospitalized"><span
+                        class="inputlabel">Hospitalized</span>
+                    <br/>
+                </fieldset>
+                <fieldset>
+                    <label class="label">Mental Status Description </label> <br/> <br/>
+                    <input type="text" ng-maxlength=1000 data-ng-model="client.mentalStatusDescription" name="MSD">
+                    <span ng-show="editStateFrm.MSD.$error.maxlength" style="color:red;font-size:12px;">Max 50 Characters</span>
+                </fieldset>
+
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+
+            </form>
+        </li>
+        <fieldset>
+            <a href="#client/edit" class="left button" ng-click="enterEdit()">Previous</a>
+            <a href="#client/editHouse" ng-hide="!editStateFrm.$valid" class="right button" ng-click="enterEditHouse()">Next</a>
+        </fieldset>
+
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </ul>
+
+
+</article>
+
+
+<article id="editHouse" class="scroll">
+    <ul>
+        <li>
+            <form name="editHouseFrm" class="form">
+
+                <fieldset>
+                    <label class="label">Attitude toward Housing</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.attitudeTowardHousing"
+                                ng-options="houseAttitude for houseAttitude in houseAttitudes">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Housing Stage</label>
+                    <label class="select">
+                        <select class="custom" data-ng-model="client.housingStage"
+                                ng-options="housingStage for housingStage in housingStages">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Barriers</label><br>
+                    <input type="text" ng-maxlength=50 data-ng-model="client.barriers" name="barriers">
+                    <span ng-show="editHouseFrm.barriers.$error.maxlength" style="color:red;font-size:12px;">Max 50 Characters</span>
+                </fieldset>
+
+            </form>
+        </li>
+        <li>
+            <fieldset>
+                <a href="#client/editState" class="left button" ng-click="enterEditState()">Previous</a>
+
+                <a href="#client/editContact" ng-hide="(client.contactROI != 'Acquired') || !editHouseFrm.$valid"
+                   class="right button"
+                   ng-click="enterEditContact()">Next</a>
+
+                <a class="right button" type="submit" ng-show="(client.contactROI != 'Acquired') && editHouseFrm.$valid"
+                   ng-click="createOrUpdate()">{{editAction}}</a>
+            </fieldset>
+        </li>
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </ul>
+
+
+</article>
+
+<article id="editContact" class="scroll">
+    <ul ng-show="client.contactROI == 'Acquired'">
+        <li>
+            <form name="editContact" class="form">
+
+                <fieldset>
+                    <label class="label">Primary Phone XXX-XXX-XXXX</label> <br>
+                    <input type="text" data-ng-model="client.primaryPhone" name="primaryPhone"
+                           ng-pattern='/^([2-9][0-9]{2})-([2-9][0-9]{2})-([0-9]{4})$/'>
+                    <span ng-show="editContact.primaryPhone.$error.pattern" style="color:red;font-size:12px;">Incorrect Format</span>
+
+
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Secondary Phone XXX-XXX-XXXX</label> <br>
+                    <input type="text" data-ng-model="client.secondaryPhone" name="secondaryPhone"
+                           ng-pattern='/^([2-9][0-9]{2})-([2-9][0-9]{2})-([0-9]{4})$/'>
+                    <span ng-show="editContact.secondaryPhone.$error.pattern" style="color:red;font-size:12px;">Incorrect Format</span>
+
+                </fieldset>
+
+                <fieldset>
+                    <label class="label"><strong>Emergency Contact</strong></label> <br/> <br/>
+                    <label class="label">Name</label> <br>
+                    <input type="text" data-ng-model="client.emergencyContactName" name="contactName" ng-minlength="2"
+                           ng-maxlength="30">
+                    <span ng-show="editContact.contactName.$error.maxlength" style="color:red;font-size:12px;">Max 30 Characters</span>
+
+
+                    <label class="label">Phone XXX-XXX-XXXX</label> <br>
+                    <input type="text" data-ng-model="client.emergencyContactPhone" name="emergencyContactPhone"
+                           ng-required="false" ng-pattern='/null|^$|^([2-9][0-9]{2})-([2-9][0-9]{2})-([0-9]{4})$/'>
+                    <span ng-show="editContact.emergencyContactPhone.$error.pattern" style="color:red;font-size:12px;">Incorrect Format</span>
+
+                </fieldset>
+            </form>
+        </li>
+        <li>
+            <fieldset>
+                <a href="#client/editHouse" class="left button" ng-click="enterEditHouse()">Previous</a>
+                <a class="right button" type="submit" ng-hide="!editContact.$valid"
+                   ng-click="createOrUpdate()">{{editAction}}</a>
+            </fieldset>
+        </li>
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </ul>
+
+
+</article>
+
+
+<!-- copy and paste? -->
+<footer>
+    <nav>
+        <a href="#home" data-icon="home"></a>
+        <a href="#news" data-icon="mail"></a>
+        <a href="#sos" data-icon="phone"></a>
+        <a href="#search" data-icon="search"></a>
+    </nav>
+</footer>
+
+</section>

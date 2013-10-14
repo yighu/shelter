@@ -1,0 +1,51 @@
+h2{font-size:1.2em; font-weight:600}
+h6{font-size:.9em; color: #535353
+}
+
+span.inputlabel{display:inline-block;
+            padding-right: 10px;
+            padding-left: 3px;
+            color:#666;
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+table.client{border-collapse:separate;border-spacing:15px 3px}
+
+table.camp{border-collapse:separate;border-spacing:15px 3px}
+
+div.detail{
+    padding: 3px;
+    border: 2px solid #878787;
+    margin: 10px 5px;
+}
+
+div.camp{
+    background-color: #BDEBB5;
+}
+
+div.client{
+    background-color: #c1e2eb;
+}
+
+.alert{
+    color: #E03849;
+    font-weight:600;
+}
+
+a.editicon:link {color:#272727;}
+a.editicon:visited {color:#272727;}
+
+label.label{
+    color: #272727;
+}
+
+
+/*form fieldset label,.form fieldset label{display:inline-block;float:left;/*width:20%;line-height:30px}*/
+
+.form input.ng-invalid.ng-dirty {
+        background-color: #FA787E;
+      }
+
+      .form input.ng-valid.ng-dirty {
+        background-color: #78FA89;
+      }

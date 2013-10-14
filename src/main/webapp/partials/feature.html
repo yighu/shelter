@@ -1,0 +1,85 @@
+<section id="featureEdit" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+    </header>
+
+    <article class="active scroll">
+
+        <ul>
+            <li>
+                <form name="featureForm" class="form">
+                    <fieldset>
+                        <label>Feature Name </label>
+                        <label class="select">
+                            <select data-ng-model="feature.featureName" ng-options="f for f in features"
+                                    name="featureName" ng-required="true"/>
+                            <option style="display:none" value="">Please Select</option>
+                            </select>
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <label>Work Flow Name </label>
+                        <label class="select">
+                            <select data-ng-model="feature.workFlowName" ng-options="w for w in workFlows"
+                                    name="workFlowName" ng-required="true"/>
+                            <option style="display:none" value="">Please Select</option>
+                            </select>
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <label>User Role</label>
+                        <label class="select">
+                            <select data-ng-model="feature.role" ng-options="role for role in roles" name="userRole"
+                                    ng-required="true">
+                                <option style="display:none" value="">Please Select</option>
+                            </select>
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <label>Privilege</label>
+                        <label class="select">
+                            <select data-ng-model="feature.privilegeType" ng-options="p for p in actions"
+                                    name="userRole"
+                                    ng-required="true">
+                                <option style="display:none" value="">Please Select</option>
+                            </select>
+                        </label>
+                    </fieldset>
+
+
+                </form>
+            </li>
+
+            <li>
+                <div>
+                    <a href="#/featureList" ng-hide="!featureForm.$valid" class="right button" type="submit"
+                       ng-click="editFeature()">Submit</a>
+                </div>
+            </li>
+
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+        </ul>
+
+    </article>
+
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

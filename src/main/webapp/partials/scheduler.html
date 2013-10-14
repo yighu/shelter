@@ -1,0 +1,152 @@
+<section id="scheduler" data-transition="slide">
+    <header data-title="{{Title}}" class="extended">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+            <a ng-show="isActive('scheduler/scheduleVisit')" href ng-click="cancel()" data-icon="close"></a>
+        </nav>
+        <nav class="right">
+            <a href="#/scheduler/scheduleVisit" ng-click="scheduleVisitEntry()" data-icon="plus"></a>
+        </nav>
+    </header>
+
+    <nav class="Groupbar"> <!-- header bar for changing between articles -->
+        <a href="#/scheduler/camps" data-label="Camps" ng-class="{active: isActive('scheduler/camps')}"
+           ng-click="enterSchedulerCamps()"></a>
+        <a href="#/scheduler/calendar" data-label="Calendar" ng-class="{active: isActive('scheduler/calendar')}"
+           ng-click="enterSchedulerCalendar()"></a>
+        <!-- Notes on the groupbar nav class
+        --
+        -->
+    </nav>
+
+    <article id="camps" class="active scroll">
+        <ul class="list">
+            <li class="thumb big" data-ng-repeat="schedule in schedules">
+                <img data-ng-src="images/CampsIcon.png">
+
+                <div>
+
+                    <div>
+                        <p class="margined left" data-icon="warning" ng-show="{{schedule.violent}}"/>
+                    </div>
+                    <div>
+                        <big class="bold">{{schedule.campName}} </big>
+                        <small>
+                            last visit on {{schedule.lastVisitedDate }} by
+                            {{schedule.lastVisitedCaseManager}}<br>
+                            Next Visit on {{schedule.nextVisitDate}} by
+                            {{schedule.nextVisingCaseManager}}
+                        </small>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
+        <br><br><br><br><br><br>
+    </article>
+
+    <article id="calendar" class="scroll">
+        <!-- right group -->
+        <ul align="middle">
+            <li class="centered wrapper text big">
+                <a href id="backward" ng-click="backMonth()" data-icon="left">&nbsp;&nbsp;</a>
+                {{month}}
+                <a href id="forward" ng-click="forwardMonth()" data-icon="right">&nbsp;&nbsp;</a>
+
+            </li>
+        </ul>
+
+        <ul class="list" ng-repeat="event in events">
+            <table>
+                <tr>
+                    <li class="light"><strong> {{month+ " "}} {{event.day}}</strong></li>
+                </tr>
+                <tr>
+                    <ul ng-repeat="dayevent in event.dayEvents">
+                        <li class="selectable list" ng-click="selectItem(dayevent)">
+                            <div>
+                                <div class="right">
+                                    <button class="small" data-icon="check" ng-show="dayevent.selected"
+                                            ng-click="checkInCamp(dayevent.campId)">
+                                        <a href=""/>
+                                    </button>
+                                </div>
+                                <div>
+                                    <strong>{{dayevent.campEvent}} </strong>
+                                        <span ng-show="dayevent.selected" class="text small">
+                                            <br>{{dayevent.eventType}}  Click to check in
+                                        </span>
+                                </div>
+
+                            </div>
+                            </a>
+                        </li>
+                    </ul>
+                </tr>
+                <!-- send CampName, Boolean Checkin, Date, Time -->
+            </table>
+        </ul>
+
+        <br><br><br><br><br><br>
+    </article>
+
+    <article id="scheduleVisit">
+
+        <ul>
+            <li>
+                <form name="scheduleVisitForm" class="form">
+                    <fieldset>
+                        <label class="label">Schedule Visit Date MM/DD/YYYY</label><br> <br>
+                        <input type="text" class="align_right" data-ng-model="scheduleVisitForm.scheduleDate"
+                               name="scheduleDate"
+                               ng-pattern='/^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d)$/'
+                               ng-required="true"/>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="align_left">
+                            <label>Camp: </label>
+                        </div>
+                        <div class="align_right">
+                            <label class="select">
+                                <select class="custom" data-ng-model="scheduleVisitForm.campName" name="campName"
+                                        ng-options="o  for o in campsNamesList">
+                                    <option style="display:none" value="">Please Select</option>
+
+                                </select>
+                            </label>
+                        </div>
+                    </fieldset>
+                </form>
+            </li>
+
+            <li>
+                <div>
+                    <a href="#/scheduler/calendar" ng-hide="!scheduleVisitForm.$valid" class="right button"
+
+                       ng-click="scheduleVisit(scheduleVisitForm)">Submit</a>
+                </div>
+            </li>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </ul>
+
+
+    </article>
+
+
+    <!-- copy and paste? -->
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

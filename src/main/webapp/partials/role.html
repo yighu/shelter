@@ -1,0 +1,53 @@
+<section id="roleEdit" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+    </header>
+
+    <article class="active scroll">
+
+        <ul>
+            <li>
+                <form name="role" class="form">
+
+                    <fieldset>
+                        <label>User Role</label>
+                        <label class="select">
+                            <select data-ng-model="role.userRole" ng-options="role for role in roles" name="userRole"
+                                    ng-required="true">
+                            </select>
+                        </label>
+                    </fieldset>
+
+                </form>
+            </li>
+
+            <li>
+                <div>
+                    <a href="#/roleList" ng-hide="!role.$valid" class="right button" type="submit"
+                       ng-click="editRole()">Submit</a>
+                </div>
+            </li>
+
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+        </ul>
+
+    </article>
+
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

@@ -1,0 +1,23 @@
+
+<section id="camera" data-transition="slide">
+    <header>
+        <nav class="left">
+            <a href="#/">Home</a>
+            <a href="#/map">Map</a>
+        </nav>
+    </header>
+    
+    <article class="active">
+        <!---upload button using HTLM5--->
+        <form action="/api/image/upload/{{client.id}}"
+              enctype="multipart/form-data" method="post">
+            <p>
+                Please upload an image <br>
+                <input  type="file" name="imageContent">
+            </p>
+            <div>
+                <input type="submit" value="upload picture">
+            </div>
+        </form>
+    </article>
+</section>

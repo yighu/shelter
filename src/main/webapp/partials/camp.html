@@ -1,0 +1,378 @@
+<section id="camp" data-transition="slide">
+<header data-title="{{title}}">
+    <nav class="left">
+        <!--<a href="#/">Back</a>-->
+        <a data-icon="menu" lab-aside="features"></a>
+        <a ng-show="isActive('camp/detail')" href="#/camps/list" data-icon="left"></a>
+        <a ng-show="isActive('camp/edit') || isActive('camp/editDesc') || isActive('camp/editEntity')"
+           href="{{cancelHref}}" ng-click="cancel()" data-icon="close"></a>
+    </nav>
+
+    <nav class="right">
+        <!--<a class="button" ng-show="isActive('camp/detail')" href="#/camp/edit" ng-click="enterEdit()">Edit</a>-->
+        <a class="button"
+           ng-show="(isActive('camp/edit') || isActive('camp/editDesc')) && (editForm.$valid && descForm.$valid)"
+           ng-click="createOrUpdate()">{{editAction}}</a>
+    </nav>
+</header>
+
+<article id="detail" class="active scroll list">
+    <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+          ng-click="error = null"></span>
+
+    <div ng-hide="campDataReceived" data-loading="black" class="centered"></div>
+
+    <div ng-show="campDataReceived">
+        <div id="camp_map" style="width:250px; height:250px;"></div>
+        <br>
+        <!--<button class="small" ng-click="setCurrentLocation(camp)">Update location</button>-->
+        <!--<br>-->
+
+     <span ng-show="camp.id" ng-switch on="imgStatus">
+        <img ng-switch-when="loaded" fallback-src="images/CampsIcon.png" data-ng-src="{{imageCampURL(camp.id)}}"
+             width="200">
+        <img ng-switch-when="loading" fallback-src="images/CampsIcon.png" data-ng-src="loader_blue_256.gif" width="200">
+        <img ng-switch-default fallback-src="images/CampsIcon.png" data-ng-src="{{imageCampURL(camp.id)}}" width="200">
+    </span>
+
+        <br>
+
+        <button class="small" ng-show="isHybrid()" type="file" ng-click="uploadPicture(camp.id, 'camera')">Upload camera
+            picture
+        </button>
+        <button class="small" ng-show="isHybrid()" type="file" ng-click="uploadPicture(camp.id, 'album')">Upload album
+            picture
+        </button>
+    </div>
+    <!---upload button using HTLM5--->
+
+    <div ng-show="isWeb() && campDataReceived">
+        <br>
+        <button class="small" ng-click="proxyClickTo('file')">Select Picture</button>
+        <!--<input id="file" type="file"-->
+        <!--style="position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; opacity: 0;">-->
+        <input id="file" type="file" style="margin-left: 2em;visibility: hidden;width: 0;height: 0;"
+               onchange="var scope = angular.element(this).scope(); scope.uploadHTML5Picture(scope.camp.id, this.files[0])"/>
+
+    </div>
+
+    <div ng-show="campDataReceived">
+        <!--<br>-->
+        <!--<button class="small" ng-show="isWeb()" ng-click="uploadHTML5Picture(camp.id)" type="submit">Upload Picture-->
+        <!--</button>-->
+
+
+        <div class="detail camp">
+            <h2>{{camp.name}} <a href="#camp/edit" class="right editicon" data-icon="pencil" ng-click="enterEdit()"></a>
+            </h2>
+
+            <div>Alert: <span class="alert">{{camp.alert}}</span></div>
+            <br>
+
+            <div>Location: {{camp.location}}</div>
+            <div>Status: {{camp.status}}</div>
+            <div>Discovery Date: {{camp.setUpDate}}</div>
+            <div>Last Visit: {{camp.lastVisitedDate}}</div>
+            <div>Scrub Date: {{camp.campScrubDate}}</div>
+
+        </div>
+
+        <div class="detail camp">
+            <h2>Description <a href="#camp/editDesc" class="right editicon" data-icon="pencil"
+                               ng-click="enterEditDesc()"></a></h2>
+
+            <br>
+
+            <div>Badge: {{camp.badge}}</div>
+            <div>Type: {{camp.campType}}</div>
+            <div>Description: {{camp.description}}</div>
+
+        </div>
+
+        <div class="detail camp">
+
+            <h2>Entities <a href="#camp/editEntity" class="right editicon" data-icon="pencil"
+                            ng-click="enterEditEntity()"></a></h2>
+            <br>
+
+            <div>Structures: {{camp.campStructureCount}}</div>
+            <div>Clients:</div>
+            <div></div>
+            <span>{{camp.campMaleCount}} Men | </span>
+            <span>{{camp.campFemaleCount}} Women | </span>
+            <span>{{camp.campChildCount}} Children</span>
+
+            <div>Pets: {{camp.campPetCount}}</div>
+
+            <br>
+
+            <div>Lead Case Manager: {{camp.leadCaseMgr}}</div>
+            <div>Case Manager: {{camp.caseMgrOne}}</div>
+            <div>Case Manager: {{camp.caseMgrTwo}}</div>
+
+        </div>
+        <br>
+
+
+        <ul>
+            <fieldset>
+                <a class="right button" ng-show="camp.active" ng-click="removeCamp()">Remove</a>
+            </fieldset>
+
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</article>
+
+<article id="edit" class="scroll">
+     <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+           ng-click="error = null"></span>
+
+    <span ng-show="error" ng-repeat="(name, message) in errors" class="button anchor cancel"
+          data-label="{{name}} -> {{message}}"
+          data-action="error"></span>
+
+    <ul>
+        <li>
+            <form name="editForm" class="form">
+                <fieldset>
+                    <label class="label">Camp Name</label> <br>
+                    <input type="text" data-ng-model="camp.name" name="campName" ng-required="true" ng-maxlength=1000>
+                    <span ng-show="editForm.campName.$error.required" style="..."> *Required</span>
+                    <span ng-show="editForm.campName.$error.maxlength" style="color:red;font-size:12px;"> Max 30 Characters</span>
+                </fieldset>
+
+                <!-- Do not need to display, confusing to user
+
+                <fieldset>
+                    <label class="label">Longitude</label>
+                    <input type="text" data-ng-model="camp.longitude">
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Latitude</label>
+                    <input type="text" data-ng-model="camp.latitude">
+                </fieldset>-->
+
+                <button ng-click="setCurrentLocation(camp)">Set location</button>
+
+                <fieldset>
+                    <label class="label">Location Description</label><br>
+                    <input type="text" data-ng-model="camp.location" ng-required="true">
+                </fieldset>
+
+                <fieldset>
+                    <div><label class="label">Camp Status</label></div>
+                    <br><br>
+
+                    <div> <span class="checked"> <input type="radio" data-ng-model="camp.status" value="Active"> <span
+                            class="inputlabel">Active</span></span></div>
+                    <div><span class="checked"><input label type="radio" data-ng-model="camp.status"
+                                                      value="Inactive"><span class="inputlabel">Inactive</span>
+                    </span></div>
+                    <div><span class="checked"><input label type="radio" data-ng-model="camp.status"
+                                                      value="ToBeRemediated"><span
+                            class="inputlabel">To Be Remediated</span></span></div>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Discovery Date MM/DD/YYYY</label> <br>
+                    <input type="text" data-ng-model="camp.setUpDate" name="setUpDate"
+                           ng-pattern='/(^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d))$/'>
+                    <span ng-show="editForm.setUpDate.$error.pattern" style="color:red;font-size:12px;">Incorrect date format</span>
+                </fieldset>
+
+
+                <fieldset ng-show="isAdmin">
+                    <label class="label">Scrub Date MM/DD/YYYY</label> <br>
+                    <input type="text" data-ng-model="camp.campScrubDate" name="scrubDate"
+                           ng-pattern='/(^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d))$/'>
+                    <span ng-show="editForm.scrubDate.$error.pattern" style="color:red;font-size:12px;">Incorrect date format</span>
+                </fieldset>
+            </form>
+        </li>
+
+        <li>
+            <div>
+                <a href="#camp/editDesc" class="right button" ng-hide="!editForm.$valid"
+                   ng-click="enterEditDesc()">Next</a>
+            </div>
+        </li>
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </ul>
+</article>
+
+<article id="editDesc" class="scroll">
+    <ul>
+        <li>
+            <form name="descForm" class="form">
+
+                <fieldset>
+                    <label class="label">Alert</label>
+                    <label class="select">
+                        <select ng-model="camp.alert" ng-options="alert for alert in alerts">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Type</label>
+                    <label class="select">
+                        <select ng-model="camp.campType" ng-options="type for type in types">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Badge</label>
+                    <label class="select">
+                        <select ng-model="camp.badge" ng-options="badge for badge in badges">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Description</label>
+                    <br>
+                    <input type="text" data-ng-model="camp.description" name="desc" ng-maxlength=1000
+                           ng-required="true">
+                    <span ng-show="descForm.desc.$error.maxlength"
+                          style="color:red;font-size:12px;"> Max 100 Characters</span>
+                </fieldset>
+
+            </form>
+        </li>
+        <li>
+            <div>
+                <a href="#camp/edit" class="left button" ng-click="enterEdit()">Previous</a>
+                <a href="#camp/editEntity" class="right button" ng-hide="!descForm.$valid" ng-click="enterEditEntity()">Next</a>
+                <br><br><br>
+            </div>
+        </li>
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </ul>
+</article>
+
+<article id="editEntity" class="scroll">
+    <ul>
+        <li>
+            <form name="entityForm" class="form">
+
+                <fieldset>
+                    <label class="label">Male Count </label> <br>
+                    <input type="text" data-ng-model="camp.campMaleCount" name="maleCount"
+                           ng-pattern='/^((0)|(0[1-9])|(0[1-9]\d{1,2})|([1-9])|([1-9]\d{1,3}))$/'>
+                    <span ng-show="entityForm.maleCount.$error.pattern"
+                          style="color:red;font-size:12px;">Invalid count</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Female Count </label> <br>
+                    <input type="text" data-ng-model="camp.campFemaleCount" name="femaleCount"
+                           ng-pattern='/^((0)|(0[1-9])|(0[1-9]\d{1,2})|([1-9])|([1-9]\d{1,3}))$/'>
+                    <span ng-show="entityForm.femaleCount.$error.pattern" style="color:red;font-size:12px;">Invalid count</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Children Count </label> <br>
+                    <input type="text" data-ng-model="camp.campChildCount" name="childrenCount"
+                           ng-pattern='/^((0)|(0[1-9])|(0[1-9]\d{1,2})|([1-9])|([1-9]\d{1,3}))$/'>
+                    <span ng-show="entityForm.childrenCount.$error.pattern" style="color:red;font-size:12px;">Invalid count</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Pet Count </label> <br>
+                    <input type="text" data-ng-model="camp.campPetCount" name="petCount"
+                           ng-pattern='/^((0)|(0[1-9])|(0[1-9]\d{1,2})|([1-9])|([1-9]\d{1,3}))$/'>
+                    <span ng-show="entityForm.petCount.$error.pattern"
+                          style="color:red;font-size:12px;">Invalid count</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Structure Count </label> <br>
+                    <input type="text" data-ng-model="camp.campStructureCount" name="structureCount"
+                           ng-pattern='/^((0)|(0[1-9])|(0[1-9]\d{1,2})|([1-9])|([1-9]\d{1,3}))$/'>
+                    <span ng-show="entityForm.structureCount.$error.pattern" style="color:red;font-size:12px;">Invalid count</span>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Lead Case Manager</label>
+                    <br>
+                    <label class="select">
+                        <select class="custom" ng-model="camp.leadCaseMgr" ng-options="o for o in caseMgrList">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Case Manager</label>
+                    <br>
+                    <label class="select">
+                        <select class="custom" ng-model="camp.caseMgrOne" ng-options="o for o in caseMgrList">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                        <!--</select>-->
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <label class="label">Case Manager</label>
+                    <br>
+                    <label class="select">
+                        <select class="custom" ng-model="camp.caseMgrTwo" ng-options="o for o in caseMgrList">
+                            <option style="display:none" value="">Please Select</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+
+            </form>
+        </li>
+        <li>
+            <div>
+                <a href="#camp/editDesc" class="left button" ng-click="enterEditDesc()">Previous</a>
+                <a class="right button" type="submit" ng-hide="!entityForm.$valid"
+                   ng-click="createOrUpdate()">Submit</a>
+                <br><br><br>
+            </div>
+        </li>
+
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+    </ul>
+</article>
+
+
+<!-- copy and paste? -->
+<footer>
+    <nav>
+        <a href="#home" data-icon="home"></a>
+        <a href="#news" data-icon="mail"></a>
+        <a href="#sos" data-icon="phone"></a>
+        <a href="#search" data-icon="search"></a>
+    </nav>
+</footer>
+</section>

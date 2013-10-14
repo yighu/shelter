@@ -1,0 +1,50 @@
+<section id="adminlist" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+
+        <nav class="right">
+            <a href="#/adminedit" ng-click="enterAdd()" data-icon="plus"></a>
+        </nav>
+    </header>
+
+    <article class="active  scroll">
+        <div ng-hide="userDataReceived" data-loading="black" class="centered"></div>
+        <ul class="list">
+                <li class="selectable medthumb" data-ng-repeat="user in users" ng-click="enterDetail()">
+
+                    <a href="#/adminedit">
+                        <big class="bold">{{user.userFirstName}} {{user.userLastName}} </big>
+
+                        <div>Role: {{user.userRole}}</div>
+                        <div>Email: {{user.userEmail}}</div>
+                        <div>Expiration Date: {{user.userExpiryDate}}</div>
+                    </a>
+
+                </li>
+        </ul>
+
+        <br>
+        <div ng-show="userDataReceived">
+            <a href="#/adminlist" ng-hide="page.firstPage" class="left button"
+               ng-click="previousPage()">Previous</a>
+        </div>
+        <div ng-show="userDataReceived">
+            <a href="#/adminlist" ng-hide="page.lastPage" class="right button"
+               ng-click="nextPage()">Next</a>
+        </div>
+        <br><br><br><br><br><br>
+
+    </article>
+
+
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

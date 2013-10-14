@@ -1,0 +1,78 @@
+<section id="adminedit" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+            <a href="#/adminlist" data-icon="left"></a>
+        </nav>
+    </header>
+
+    <article class="active scroll">
+
+        <ul>
+            <li>
+                <form name="admin" class="form">
+                    <fieldset>
+                        <label class="label">First Name </label>
+                        <input type="text" data-ng-model="user.userFirstName" name="firstName" ng-required="true"/>
+                    </fieldset>
+
+                    <fieldset>
+                        <label class="label">Last Name </label>
+                        <input type="text" data-ng-model="user.userLastName" name="lastName" ng-required="true"/>
+                    </fieldset>
+
+                    <fieldset>
+                        <label class="label">User Role</label>
+                        <label class="select">
+                            <select data-ng-model="user.userRole" ng-options="role for role in roles" name="userRole"
+                                    ng-required="true">
+                                <option style="display:none" value="">Please Select</option>
+                            </select>
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <label class="label">Email </label>
+                        <input type="email" data-ng-model="user.userEmail" name="userEmail" ng-required="true"/>
+                        <span class="error" ng-show="admin.userEmail.$error.email">Not valid email!</span>
+                    </fieldset>
+
+                    <fieldset>
+                        <label class="label">Expiration Date MM/DD/YYYY</label><br> <br>
+                        <input type="text" class="align_right" data-ng-model="user.userExpiryDate" name="expiryDate"
+                               ng-pattern='/^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d)$/'
+                               ng-required="true"/>
+                    </fieldset>
+
+
+                </form>
+            </li>
+
+            <li>
+                <div>
+                    <a href="#/adminlist" ng-hide="!admin.$valid" class="right button" type="submit"
+                       ng-click="editUser()">Submit</a>
+                </div>
+            </li>
+
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+        </ul>
+
+    </article>
+
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

@@ -1,0 +1,74 @@
+<section id="newsDetails" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+            <a  class="right button" ng-click="createNews()" type="submit">Save</a>
+            <!--href="#/news"-->
+        </nav>
+        <nav class="right">
+            <a class="button"
+
+               href="#/news" ng-click="cancel()">Cancel</a>
+        </nav>
+    </header>
+
+<article id="comments" class="scroll">
+
+
+    <table class="news">
+        <tr>
+            <td><big class="bold">Camp: {{news.campName}} </big></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>{{news.comments}}</td>
+        </tr>
+        <tr>
+
+            <td align="right"><small>
+                {{news.createdByDate | date:'short'}}</small></td>
+            <!--{{news.createdByMonth}}/{{news.createdByDay}}/{{news.createdByYear}}  {{news.createdByHour}}: {{news.createdByMin}}-->
+
+        </tr>
+    </table>
+    <ul>
+
+
+     </ul>
+</article>
+
+<article id="addReply" class="scroll">
+   <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+      ng-click="error = null"></span>
+    <div class="form">
+        <fieldset>
+            <label>Replying To...</label>
+           <h2> {{news.comments}}  </h2>
+        </fieldset>
+
+        <fieldset>
+        <label>Message Type:</label>
+        <select class="custom" data-ng-model="comments.messageType" ng-options="types for types in types">
+            <option style= "display:none" value="">Please Select</option>
+        </select>
+            </fieldset>
+        <fieldset data-icon="pencil">
+            <label>Reply</label>
+            </br>
+            <label>{{replycharCount}} out of 150 characters</label>
+            <textarea ng-change="charCount()" id="replynews" data-ng-model='comments.comments' class="textarea"  rows="4" cols="50"></textarea>
+        </fieldset>
+
+    </div>
+</article>
+
+<footer>
+    <nav>
+        <a href="#home"  data-icon="home"></a>
+        <a href="#news"  data-icon="mail"></a>
+        <a href="#sos"  data-icon="phone"></a>
+        <a href="#search"  data-icon="search"></a>
+    </nav>
+</footer>
+</section>

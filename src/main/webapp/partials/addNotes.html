@@ -1,0 +1,50 @@
+<section id="addNotes" data-transition="slide" xmlns="http://www.w3.org/1999/html">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+            <a href="#/notes" data-icon="close" ng-click="cancel()"></a>
+        </nav>
+        <nav class="right">
+            <a  class="button small"  ng-click="submitNotes()"  type="submit">Save</a>
+        </nav>
+    </header>
+
+
+    <article  class="active scroll">
+         <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+               ng-click="error = null"></span>
+    <div class="form">
+        <fieldset>
+
+            <!--<div data-ng-model="caseNotes.caseMngName"> {{caseNotes.caseMngName}} </div>
+     -->   </fieldset>
+
+        <fieldset>
+            <label class="label">Housing Stage</label>
+            <label class="select">
+                <select class="custom" data-ng-model="caseNotes.housingStage"
+                        ng-options="housingStage for housingStage in housingStages">
+                    <option style="display:none" value="">Please Select</option>
+                </select>
+            </label>
+        </fieldset>
+
+        <fieldset data-icon="pencil">
+            <label>Notes</label>
+            <br>
+            <textarea id="replynews" data-ng-model='caseNotes.note' class="textarea"  rows="4" cols="50"></textarea>
+        </fieldset>
+
+    </div>
+
+</article>
+
+<footer>
+    <nav>
+        <a href="#home"  data-icon="home"></a>
+        <a href="#news"  data-icon="mail"></a>
+        <a href="#sos"  data-icon="phone"></a>
+        <a href="#search"  data-icon="search"></a>
+    </nav>
+</footer>
+</section>

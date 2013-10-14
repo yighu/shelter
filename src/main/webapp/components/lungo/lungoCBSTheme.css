@@ -1,0 +1,31 @@
+section article .list li.selectable:active,
+section article .list li a.selectable:active,
+section article .list li.theme,
+section article .list li a.theme,
+section article .list li.active,
+section article .list li a.active {
+    background: #03b1ff;
+}
+
+.icon.minus:before{content:"\0057";}
+.icon.campsites:before{url:"http://i.imgur.com/NK01qXW.png"}
+.icon.newsfeed:before{url:"http://i.imgur.com/bweIQ3K.png"}
+
+.button.center {padding:2px 2px 2px 2px;background-color:#d3d3d3;}
+.button.sos{height:40px;padding:4px 0px 0px 0px;font-size:1.1em;line-height:28px;width:75%;background-color:#d3d3d3;}
+
+td { text-align:center; vertical-align:middle; }
+
+li.align_left{text-align:left;alignment:left;}textarea {
+    background-color: #fff;
+    color: rgba(0,0,0,0.75);
+    border: 1px solid #ddd;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.icon.minus:before{content:"\0057";}

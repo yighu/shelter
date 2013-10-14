@@ -1,0 +1,88 @@
+<section id="searchResults" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+        <nav class="right">
+            <a class="button" href="#/search">New Search</a>
+        </nav>
+    </header>
+
+    <article id="clientSearch" class="list indented scroll">
+        <!--    <div ng-init="clients = [{firstName:'Timmy', lastName:'Doe'}, {firstName:'Jimmy', lastName:'Lee'}]">
+                </div> -->
+        <ul class="list">
+            <li class="dark">
+                <big class="bold">Client Search</big>
+            </li>
+            <li>
+                {{clientNumResults}}
+            </li>
+        </ul>
+        <!--<input type="search"  id="searchTextBox" ng-model="text" placeholder="live search...">
+        -->
+        <!--<a href="#" class="button anchor" ng-click="searchText = {{text}}">Search</a>  -->
+
+        <!--  <div ng-hide="clients" data-loading="black" class="centered"></div>        -->
+        <ul class="list" id="clientList">
+            <li class="selectable" data-ng-repeat="client in clients"  ng-click="enterDetail()">
+                <img data-ng-src="{{imageURL(client.id)}}"/>
+                <a href="#/client/detail">
+                    <big class="bold">{{client.firstName}} {{client.lastName}}</big>
+
+                </a>
+            </li>
+        </ul>
+
+    </article>
+
+    <article id = "campSearch" class="list indented scroll">
+        <!--    <div ng-init="clients = [{firstName:'Timmy', lastName:'Doe'}, {firstName:'Jimmy', lastName:'Lee'}]">
+                </div> -->
+        <ul class="list">
+            <li class="dark">
+                <big class="bold">Camp Search</big>
+            </li>
+            <li>
+                {{campNumResults}}
+            </li>
+        </ul>
+
+
+        <!--<input type="search"  id="searchTextBox" ng-model="text" placeholder="live search...">
+        -->
+        <!--<a href="#" class="button anchor" ng-click="searchText = {{text}}">Search</a>  -->
+
+
+        <!--  <div ng-hide="clients" data-loading="black" class="centered"></div>        -->
+
+        <ul class="list" id="campList">
+            <li class="selectable" data-ng-repeat="camp in camps" ng-click=addCampDetailsToScope()>
+                <img data-ng-src="{{imageURL(camp.id)}}"/>
+                <a href="#/camp/detail">
+                    <big class="bold">{{camp.name}} </big>
+                    <small>{{camp.location}}</small>
+                </a>
+            </li>
+        </ul>
+
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+    </article>
+
+
+    <!-- copy and paste? -->
+    <footer>
+        <nav>
+            <a href="#home"  data-icon="home"></a>
+            <a href="#news"  data-icon="mail"></a>
+            <a href="#sos"  data-icon="phone"></a>
+            <a href="#search"  data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

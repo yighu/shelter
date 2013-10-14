@@ -1,0 +1,67 @@
+<section id="camps" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+            <a ng-show="isActive('camps/map')" href="#/camps/list" data-icon="left" ng-click="enterList()"></a>
+        </nav>
+
+        <nav class="right">
+            <a ng-show="isActive('camps/list')" href="#/camps/map" class="button"
+               ng-click="showCampsOnMap('camps_map')">Maps</a>
+            <a ng-show="isActive('camps/list')" href="#/camp/edit" ng-click="enterEdit()" data-icon="plus"></a>
+        </nav>
+    </header>
+
+    <article id="list" class="active scroll list">
+        <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+              ng-click="error = null"></span>
+
+        <div ng-hide="campDataReceived" data-loading="black" class="centered"></div>
+        <ul class="scroll">
+            <li class="selectable thumb big" data-ng-repeat="camp in camps" ng-click=addCampDetailsToScope()>
+                <!--<img fallback-src="images/CampsIcon.png" data-ng-src="{{imageCampURL(camp.id)}}"/>-->
+                <img src="images/CampsIcon.png"/>
+
+                <div>
+                    <a href="#/camp/detail">
+                        <h2>{{camp.name}} </h2>
+
+                        <div>Location Desc: {{camp.location}}</div>
+                        <div>Status: {{camp.status}}</div>
+                        <div>Type: {{camp.campType}}</div>
+
+                        <small ng-show="selected">Badge: {{camp.badge}}</small>
+                        <small ng-show="selected">Alert: <span class="alert">{{camp.alert}}</span></small>
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+        <br>
+        <div ng-show="campDataReceived">
+            <a href="#/camps/list" ng-hide="page.firstPage" class="left button"
+               ng-click="previousPage()">Previous</a>
+        </div>
+        <div ng-show="campDataReceived">
+            <a href="#/camps/list" ng-hide="page.lastPage" class="right button"
+               ng-click="nextPage()">Next</a>
+        </div>
+        <br><br><br><br><br><br>
+
+    </article>
+
+    <article id="map">
+        <div ng-hide="mapDataReady" data-loading="black" class="centered"></div>
+        <div id="camps_map" style="width:300px; height:400px;"></div>
+    </article>
+
+    <!-- copy and paste? -->
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

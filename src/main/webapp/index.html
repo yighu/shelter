@@ -1,0 +1,153 @@
+<html ng-app="CommunityShelterApp">
+<head>
+    <title>shelter</title>
+    <meta charset="utf-8"/>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <link rel="stylesheet" type="text/css" href="components/lungo/lungo.css"/>
+    <link rel="stylesheet" type="text/css" href="components/lungo/lungo.icon.css"/>
+    <link rel="stylesheet" type="text/css" href="components/lungo/theme.lungo.css">
+    <link rel="stylesheet" type="text/css" href="components/lungo/lungo.icon.brand.css">
+    <link rel="stylesheet" type="text/css" href="components/lungo/custom.css">
+    <script type="text/javascript" src="components/quojs/quo.debug.js"></script>
+    <script type="text/javascript" src="components/lungo/lungo.js"></script>
+    <script type="text/javascript" src="components/angular/angular.js"></script>
+    <script type="text/javascript" src="components/angular/angular-resource.js"></script>
+
+</head>
+<body class="app" lab-boot data-position="fixed">
+<section id="main" data-transition="none">
+    <!--<header>
+   <nav class="left">
+       <a data-icon="menu" lab-aside="features"></a>
+   </nav>
+   <!--<nav class="right">-->
+    <!--<a data-icon="search" lab-aside="features" ></a>-->
+    <!--</nav>-->
+    <!--</header>-->
+
+
+    <article id="default" class="active">
+    </article>
+    <!-- <footer>
+       <nav>
+           <a href="#home"  data-icon="home"></a>
+           <a href="#news"  data-icon="mail"></a>
+           <a href="#sos"  data-icon="warning"></a>
+           <a href="#search"  data-icon="search"></a>
+       </nav>
+   </footer> -->
+
+
+</section>
+
+
+<aside id="features">
+    <header data-title="Menu"></header>
+    <article class="active list scroll">
+        <ul>
+            <li class="current">
+                <a href="#home">
+                    <strong data-icon="home"> Home</strong>
+                </a>
+            </li>
+
+            <li class="current">
+                <a href="#news">
+                    <img class="left" ng-src="images/NewsIcon.png" height="25px">
+                    <strong> News Feed</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#camps/list">
+                    <img class="left" ng-src="images/CampsIcon.png" height="25px">
+                    <strong class="indented"> Camp Sites</strong> <!-- data-icon="pushpin" -->
+                </a>
+            </li>
+            <li>
+                <a href="#clients">
+                    <strong data-icon="users"> Clients</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#scheduler/calendar">
+                    <strong data-icon="calendar"> Scheduler</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#sos">
+                    <strong data-icon="phone"> Emergency Contacts</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#search">
+                    <strong data-icon="search" class="feature"> Search Camp Site or Client</strong>
+                </a>
+            </li>
+            <li ng-show="isAdmin">
+                <a href="#adminlist">
+                    <strong data-icon="user" class="feature"> Admin</strong>
+                </a>
+            </li>
+            <li>
+                <a href="logout?redirect=#/home">
+                    <strong data-icon="home" class="feature"> Logout</strong>
+                </a>
+            </li>
+        </ul>
+    </article>
+
+</aside>
+
+
+<lab-view></lab-view>
+
+<!-- If you use build.phonegap.com DO NOT add the phonegap.js to your archive -->
+<!--<script src="phonegap.js"></script>-->
+<!--<script type="text/javascript" src="cordova.js"></script>-->
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript" src="components/lungo-angular-bridge/src/lungo-angular-bridge.js"></script>
+<!-- Our Angular app files -->
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/config/config.js"></script>
+<script type="text/javascript" src="js/config/config-dev.js"></script>
+<script type="text/javascript" src="js/controller/controller.js"></script>
+<script type="text/javascript" src="js/controller/ClientController.js"></script>
+<script type="text/javascript" src="js/controller/CampController.js"></script>
+<script type="text/javascript" src="js/controller/CaseNotesController.js"></script>
+<script type="text/javascript" src="js/controller/SchedulerController.js"></script>
+<script type="text/javascript" src="js/controller/SearchController.js"></script>
+<script type="text/javascript" src="js/controller/AdminController.js"></script>
+<script type="text/javascript" src="js/service/ImageUtil.js"></script>
+<script type="text/javascript" src="js/service/SafeApply.js"></script>
+<script type="text/javascript" src="js/service/NewsFeedService.js"></script>
+<script type="text/javascript" src="js/service/PhoneGapCameraService.js"></script>
+<script type="text/javascript" src="js/service/HTML5CameraService.js"></script>
+<script type="text/javascript" src="js/service/PhoneGapLocationService.js"></script>
+<script type="text/javascript" src="js/service/PhoneGapLocationService.js"></script>
+<script type="text/javascript" src="js/service/GoogleMapsService.js"></script>
+<script type="text/javascript" src="js/service/ClientService.js"></script>
+<script type="text/javascript" src="js/service/CaseNotesService.js"></script>
+<script type="text/javascript" src="js/service/SchedulerService.js"></script>
+<script type="text/javascript" src="js/service/CampService.js"></script>
+<script type="text/javascript" src="js/service/HttpInterceptor.js"></script>
+<script type="text/javascript" src="js/service/AdminUserService.js"></script>
+<script type="text/javascript" src="js/controller/AdminController.js"></script>
+<script type="text/javascript" src="js/controller/NewsFeedController.js"></script>
+<script type="text/javascript" src="js/directive/phoneNumber.js"></script>
+<script type="text/javascript" src="js/controller/ClientController.js"></script>
+<script type="text/javascript" src="js/controller/FeatureController.js"></script>
+<script type="text/javascript" src="js/service/FeatureService.js"></script>
+<script type="text/javascript" src="js/controller/PrivilegeController.js"></script>
+<script type="text/javascript" src="js/service/PrivilegeService.js"></script>
+<script type="text/javascript" src="js/controller/RoleController.js"></script>
+<script type="text/javascript" src="js/service/RoleService.js"></script>
+<script type="text/javascript" src="js/controller/HomeCtrl.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+[
+    {
+        "firstName":"John",
+        "lastName":"Smith",
+        "city":"Phoenix"
+    },
+    {
+        "firstName":"John",
+        "lastName":"Kennedy",
+        "city":"New York"
+    },
+    {
+        "firstName":"Joe",
+        "lastName":"Izzo",
+        "city":"San Francisco"
+    }
+]

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.logicalguess.shelter"
+        versionCode="10" 
+        version   = "0.0.1">
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>shelter</name>            
+    <description>
+        Shelter App
+    </description>
+    <author href="" email="cgonciulea@gmail.com">
+        Momentum
+    </author>
+
+    <access origin="*"/>
+
+    <preference name="phonegap-version" value="2.7.0" />
+    <preference name="stay-in-webview" value="false" />
+</widget>
+

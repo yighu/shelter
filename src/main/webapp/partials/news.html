@@ -1,0 +1,69 @@
+<section id="news" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+    </header>
+
+    <article class="active  scroll list">
+        <div ng-hide="newsDataReceived" data-loading="black" class="centered"></div>
+        <span ng-show="error" class="button anchor cancel" data-label="{{error}}" data-action="error"
+            ng-click="error = null"></span>
+        <ul  class=" scroll" >
+            <li class="selectable medthumb" data-ng-repeat= "(newsIndex, news) in news" ng-click= "show(newsIndex)">
+                                <h1>{{news.createdBy}} </h1>
+                                <h2>Camp: {{news.campName}} </h2>
+
+                                <div>{{news.comments}}</div>
+
+                            <small>
+                                    {{news.createdByDate | date:'short'}}</small>
+                <ul  data-ng-repeat="comments in comments" ng-show="isShowing(newsIndex)">
+                    <li class="selectable thumb">
+
+                        <h2>{{comments.comments}} </h2>
+
+                        <small>Created by: {{comments.createdBy}} </small>
+                        <small>{{comments.createdByDate | date:'short'}}</small>
+
+                    </li>
+
+
+                </ul>
+                <div><a href="#/newsDetails/addReply" ng-show="isShowing(newsIndex)" ng-click="addcomment()">Click here to reply to this post</a></div>
+
+            </li>
+
+
+        </ul>
+
+        <br>
+        <div ng-show="newsDataReceived">
+            <a href="#/news" ng-hide="page.firstPage" class="left button"
+               ng-click="previousPage()">Previous</a>
+        </div>
+        <div ng-show="newsDataReceived">
+            <a href="#/news" ng-hide="page.lastPage" class="right button"
+               ng-click="nextPage()">Next</a>
+        </div>
+
+
+        <br><br><br><br><br><br>
+
+    </article>
+
+
+    <footer>
+        <nav>
+            <a href="#home"  data-icon="home"></a>
+            <a href="#news"  data-icon="mail"></a>
+            <a href="#sos"  data-icon="phone"></a>
+            <a href="#search"  data-icon="search"></a>
+        </nav>
+    </footer>
+
+
+
+
+    <!-- copy and paste? -->
+    </section>

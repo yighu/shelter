@@ -1,0 +1,53 @@
+<section id="search" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+    </header>
+
+
+    <article class="active">
+        <!--<input type="search"  id="searchTextBox" ng-model="text" placeholder="live search...">
+        -->
+        <!--<a href="#" class="button anchor" ng-click="searchText = {{text}}">Search</a>  -->
+
+        <!--<input type="search"  id="searchTextBox" ng-model="text" placeholder="live search...">
+        -->
+        <!--<a href="#" class="button anchor" ng-click="searchText = {{text}}">Search</a>  -->
+        <div class="form" >
+            <ul class="list" >
+                <li class="theme">
+                        Client Search
+                </li>
+                <li>
+                     <fieldset data-icon="search">
+                          <input type="search"  placeholder="Search..."ng-model="textClient">
+                     </fieldset>
+                    <a class='button' style="display: inline-block;" href="#/searchResults/clientSearch"  ng-click="enterClient(textClient)">Search</a>
+                </li>
+
+                <li class="theme">
+                     Camp Search
+                </li>
+                <li>
+                    <fieldset data-icon="search">
+                        <input type="search" placeholder="Search..."ng-model="textCamp">
+                    </fieldset>
+                    <a class='button' style="display: inline-block;" href="#/searchResults/campSearch" ng-click="enterCamp(textCamp)">Search</a>
+                </li>
+
+
+            </ul>
+          </div>
+    </article>
+
+    <!-- copy and paste? -->
+    <footer>
+        <nav>
+            <a href="#home"  data-icon="home"></a>
+            <a href="#news"  data-icon="mail"></a>
+            <a href="#sos"  data-icon="phone"></a>
+            <a href="#search"  data-icon="search"></a>
+        </nav>
+    </footer>
+</section>

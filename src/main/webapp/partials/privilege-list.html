@@ -1,0 +1,39 @@
+<section id="privilegeList" data-transition="slide">
+    <header data-title="{{title}}">
+        <nav class="left">
+            <a data-icon="menu" lab-aside="features"></a>
+        </nav>
+
+        <nav class="right">
+            <a href="#/privilegeEdit" ng-click="enterAdd()" data-icon="plus"></a>
+        </nav>
+    </header>
+
+    <article class="active  scroll">
+        <div ng-hide="userDataReceived" data-loading="black" class="centered"></div>
+        <ul class="list">
+            <li class="selectable thumb" data-ng-repeat="p in privileges" ng-click="enterDetail()">
+
+                <a href="#/privilegeEdit">
+                    <div>Privilege: {{p.privilegeType}}</div>
+
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </article>
+
+
+    <footer>
+        <nav>
+            <a href="#home" data-icon="home"></a>
+            <a href="#news" data-icon="mail"></a>
+            <a href="#sos" data-icon="phone"></a>
+            <a href="#search" data-icon="search"></a>
+        </nav>
+    </footer>
+</section>
