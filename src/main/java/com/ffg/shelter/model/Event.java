@@ -21,6 +21,7 @@ public class Event implements Serializable {
     private Long eventOwner;
     @Index(name = "eventCampIndex")
     private Long campId;
+    private String comment;
 
     public Long getCampId() {
         return campId;
@@ -56,7 +57,14 @@ public class Event implements Serializable {
         this.eventType = eventType;
     }
 
+    public String getComment() {
+        return comment;
+    }
 
+    public void setComment(String comment) {
+        this.comment= comment;
+
+	}
     public Timestamp getEventDate() {
         return eventDate;
     }

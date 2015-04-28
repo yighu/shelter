@@ -267,6 +267,7 @@
         eventExpiryDate datetime,
         eventOwner bigint,
         eventType varchar(255),
+        comment varchar(255),
         primary key (id)
     );
 

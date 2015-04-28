@@ -84,7 +84,7 @@ public class LoginController {
         } catch (AuthorizationException e) {
             System.out.println("Not an Admin User" + e);
         } catch (NullPointerException e) {
-            System.out.println("NullPointerException=" + e);
+            System.out.println("in login controller NullPointerException=" + e);
         }
         return role;
     }

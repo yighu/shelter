@@ -610,8 +610,8 @@
 
                 <fieldset>
                     <label class="label">Barriers</label><br>
-                    <input type="text" ng-maxlength=50 data-ng-model="client.barriers" name="barriers">
-                    <span ng-show="editHouseFrm.barriers.$error.maxlength" style="color:red;font-size:12px;">Max 50 Characters</span>
+                    <input type="text" ng-maxlength=255 data-ng-model="client.barriers" name="barriers">
+                    <span ng-show="editHouseFrm.barriers.$error.maxlength" style="color:red;font-size:12px;">Max 255 Characters</span>
                 </fieldset>
 
             </form>

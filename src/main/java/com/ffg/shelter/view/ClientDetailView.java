@@ -50,7 +50,7 @@ public class ClientDetailView {
     private String mentalStatus;
     private String attitudeTowardHousing;
     private String housingStage;
-    @Size(min = 1, max = 30)
+    @Size(min = 0, max = 255)
     private String barriers;
     @Pattern(regexp = "^([2-9][0-9]{2})-([2-9][0-9]{2})-([0-9]{4})$", message = " primaryPhone number format is XXX-XXX-XXXX")
     private String primaryPhone;

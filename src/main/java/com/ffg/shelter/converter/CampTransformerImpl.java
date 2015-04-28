@@ -353,7 +353,7 @@ public class CampTransformerImpl implements CampTransformer {
     public void createLeadCampMgrBusinessEvents(Camp camp, CampDetailView campDetailView) {
         Event event = new Event();
         event.setCampId(camp.getId());
-        event.setEventDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        event.setEventDate(new Timestamp(camp.getSetUpDate().getTimeInMillis()));
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.roll(Calendar.MONTH, 3);
         event.setEventExpiryDate(new Timestamp(expiryDate.getTimeInMillis()));
@@ -365,7 +365,7 @@ public class CampTransformerImpl implements CampTransformer {
     public void createCampMgrOneBusinessEvents(Camp camp, CampDetailView campDetailView) {
         Event event = new Event();
         event.setCampId(camp.getId());
-        event.setEventDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        event.setEventDate(new Timestamp(camp.getSetUpDate().getTimeInMillis()));
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.roll(Calendar.MONTH, 3);
         event.setEventExpiryDate(new Timestamp(expiryDate.getTimeInMillis()));
@@ -377,7 +377,8 @@ public class CampTransformerImpl implements CampTransformer {
     public void createCampMgrTwoBusinessEvents(Camp camp, CampDetailView campDetailView) {
         Event event = new Event();
         event.setCampId(camp.getId());
-        event.setEventDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        //event.setEventDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        event.setEventDate(new Timestamp(camp.getSetUpDate().getTimeInMillis()));
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.roll(Calendar.MONTH, 3);
         event.setEventExpiryDate(new Timestamp(expiryDate.getTimeInMillis()));

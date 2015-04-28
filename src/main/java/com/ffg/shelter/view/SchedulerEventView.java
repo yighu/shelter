@@ -14,6 +14,7 @@ public class SchedulerEventView {
     private String eventType;
     private Long campId;
     private String eventDay;
+    private String comment;
 
     public String getEventDay() {
         return eventDay;
@@ -21,6 +22,13 @@ public class SchedulerEventView {
 
     public void setEventDay(String eventDay) {
         this.eventDay = eventDay;
+    }
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment= comment;
     }
 
     public String getEventType() {
