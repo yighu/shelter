@@ -52,6 +52,8 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
 
     function allEvent(data) {
          var events = [];
+	 console.log("all event data:");
+	 console.log(data);
          angular.forEach(data, function(value, key) {
                   var eventListForDay  = buildCampEvent(value.listOfEventsForDay);
                   var eventStrFinal = {'day': value.day, 'dayEvents' : eventListForDay};
@@ -74,8 +76,12 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
 
     function buildCampEvent(data) {
         var campEvent = [];
+	console.log("build camp event");
         angular.forEach(data, function(value, key){
-           var eventWithCampId = {'campEvent': value.campEvent, 'campId' : value.campId, 'checkIn': false, 'eventType' : value.eventType};
+		
+	console.log(value);
+	if(!value.comment)value.comment="";
+           var eventWithCampId = {'campEvent': value.campEvent, 'campId' : value.campId,'comment' : value.comment, 'checkIn': false, 'eventType' : value.eventType};
            this.push(eventWithCampId);
         }, campEvent);
         return campEvent;
@@ -124,10 +130,11 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
                 addCampsToScope();
     }
     $scope.scheduleVisit = function (scheduleVisitForm) {
-                 SchedulerService.scheduleVisit({'campName': scheduleVisitForm.campName, 'scheduleDate':scheduleVisitForm.scheduleDate, 'checkIn': false},function (data) {
+                 SchedulerService.scheduleVisit({'campName': scheduleVisitForm.campName, 'comment':scheduleVisitForm.comment,'scheduleDate':scheduleVisitForm.scheduleDate, 'checkIn': false},function (data) {
                            enterSchedulerCalendar();
                            scheduleVisitForm.campName = null;
                            scheduleVisitForm.scheduleDate = null;
+                           scheduleVisitForm.comment= null;
 
                          },function (err) {
                               console.log(err);
@@ -137,6 +144,8 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
    function addCampsToScope() {
               CampService.getAllCamps(function (data) {
                               $scope.camps = data;
+				console.log("camps for scheduler:");
+				console.log(data);
                               buildCamps();
                           },
                           function (err) {

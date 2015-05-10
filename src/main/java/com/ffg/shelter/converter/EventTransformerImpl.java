@@ -61,15 +61,18 @@ public class EventTransformerImpl implements EventTransformer {
         CsbUser csbUser = adminService.getUser();
         event.setEventOwner(csbUser.getId());
 
-
+	System.out.println("camp sche check in view:"+campScheduleCheckInView.toString());
+	System.out.println("scheduledat:"+campScheduleCheckInView.getScheduleDate());
         if (campScheduleCheckInView.isCheckIn()) {
             event.setCampId(campScheduleCheckInView.getCampId());
             event.setEventDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
             event.setEventType(EventType.CampVisited);
+            event.setComment(campScheduleCheckInView.getComment());
         } else {
             event.setCampId(campService.findIdByCampName(campScheduleCheckInView.getCampName()).getId());
             event.setEventDate(new Timestamp(convertDate(campScheduleCheckInView.getScheduleDate()).getTimeInMillis()));
             event.setEventType(EventType.ScheduleCampVisit);
+            event.setComment(campScheduleCheckInView.getComment());
 
         }
         return event;
@@ -97,10 +100,13 @@ public class EventTransformerImpl implements EventTransformer {
         List<SchedulerEventDayView> eventList = new ArrayList<SchedulerEventDayView>();
         for (Event event : allEvents) {
             if ((event.getEventType() == EventType.CampVisited) || (event.getEventType() == EventType.ScheduleCampVisit)) {
-                Calendar eventDate = Calendar.getInstance();
+
+		System.out.println("event date:"+event.getEventDate());
+                Calendar eventDate = Calendar.getInstance(); //TBD Fixed. this should be the date/time that was set from web
                 eventDate.setTimeInMillis(event.getEventDate().getTime());
                 int day = eventDate.get(Calendar.DAY_OF_MONTH);
                 int hour = eventDate.get(Calendar.HOUR);
+                int min= eventDate.get(Calendar.MINUTE);
                 int amPm = eventDate.get(Calendar.AM_PM);
 
                 String campName = "";
@@ -121,7 +127,7 @@ public class EventTransformerImpl implements EventTransformer {
                     hour = 12;
                 }
 
-                String eventDes = hour + midDay + "  " + campName + " " + "-" + " " + eventOwner + " " + "-" + " " + event.getEventType().toString();
+                String eventDes = hour+":"+min+" " + midDay + "  " + campName + "( " +event.getComment()+ ")-" + " " + eventOwner + " " + "-" + " " + event.getEventType().toString();
                 String eventKey = String.valueOf(day);
                 String eventDay = dayOfMonth + " " + day;
 
@@ -130,6 +136,7 @@ public class EventTransformerImpl implements EventTransformer {
                     SchedulerEventView schedulerEventView = new SchedulerEventView();
                     schedulerEventView.setCampEvent(eventDes);
                     schedulerEventView.setCampId(event.getCampId());
+                    schedulerEventView.setComment(event.getComment());
                     schedulerEventView.setEventDay(eventDay);
                     if (event.getEventType() != null) {
                         schedulerEventView.setEventType(event.getEventType().toString());
@@ -146,6 +153,7 @@ public class EventTransformerImpl implements EventTransformer {
                         schedulerEventView.setEventType(event.getEventType().toString());
                     }
                     schedulerEventView.setCampId(event.getCampId());
+                    schedulerEventView.setComment(event.getComment());
                     listEventMap.put(day, listEvents);
                 }
 
@@ -239,13 +247,14 @@ public class EventTransformerImpl implements EventTransformer {
         Calendar eDate = Calendar.getInstance();
         int hour = eDate.get(Calendar.HOUR);
         eDate.clear();
-
+	System.out.println("input date:"+date);
         if (date != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm");
             eDate.setTime(formatter.parse(date));
         }
+	System.out.println("output date:"+DateFormat.getDateInstance().format(eDate.getTime()));
 
-        eDate.set(Calendar.HOUR_OF_DAY, hour);
+        //eDate.set(Calendar.HOUR_OF_DAY, hour);
         return eDate;
 
     }

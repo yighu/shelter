@@ -65,9 +65,12 @@ public class NewsFeedTransformerImpl implements NewsFeedTransformer {
         newsFeedView.setId(id.toString());
         newsFeedView.setCampName(getCampNameById(event.getCampId()));
         Calendar eventDate = Calendar.getInstance();
+	System.out.println("event date for newS:"+event.getEventDate());
         eventDate.setTimeInMillis(event.getEventDate().getTime());
+	System.out.println("new event date for newS:"+event.getEventDate());
+//new Timestamp(convertDate(campScheduleCheckInView.getScheduleDate()).getTimeInMillis())
         if (eventDate != null) {
-            newsFeedView.setCreatedByDate((eventDate.get(Calendar.MONTH) + "/" + eventDate.get(Calendar.DAY_OF_MONTH) + "/" + eventDate.get(Calendar.YEAR)));
+            newsFeedView.setCreatedByDate(((1+eventDate.get(Calendar.MONTH)) + "/" + eventDate.get(Calendar.DAY_OF_MONTH) + "/" + eventDate.get(Calendar.YEAR)));
         }
         newsFeedView.setComments("" + event.getEventType());
         return newsFeedView;

@@ -121,7 +121,7 @@ public class CampController extends ServiceBasedRestController<Camp, Long, CampS
         //TODO
         //     featureService.isUserAuthorizationForFeature("camps");
         for (Camp camp : this.service.findAll()) {
-            if (camp.getStatus() == CampStatus.Active) {
+            if (camp.getStatus() == CampStatus.Active||camp.getStatus() == CampStatus.ToBeRemediated) {
                 listOfCamps.add(campTransformer.transformFromEntityToListView(camp));
             }
         }

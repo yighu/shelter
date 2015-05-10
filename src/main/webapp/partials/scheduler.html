@@ -30,7 +30,7 @@
                         <p class="margined left" data-icon="warning" ng-show="{{schedule.violent}}"/>
                     </div>
                     <div>
-                        <big class="bold">{{schedule.campName}} </big>
+                        <big class="bold">{{schedule.campName}} ({{schedule.comment}}) </big>
                         <small>
                             last visit on {{schedule.lastVisitedDate }} by
                             {{schedule.lastVisitedCaseManager}}<br>
@@ -74,7 +74,7 @@
                                 <div>
                                     <strong>{{dayevent.campEvent}} </strong>
                                         <span ng-show="dayevent.selected" class="text small">
-                                            <br>{{dayevent.eventType}}  Click to check in
+                                            <br>{{dayevent.eventType}} -- Click to check in
                                         </span>
                                 </div>
 
@@ -96,10 +96,10 @@
             <li>
                 <form name="scheduleVisitForm" class="form">
                     <fieldset>
-                        <label class="label">Schedule Visit Date MM/DD/YYYY</label><br> <br>
+                        <label class="label">Schedule Visit Date MM/DD/YYYY HH:MM</label><br> <br>
                         <input type="text" class="align_right" data-ng-model="scheduleVisitForm.scheduleDate"
                                name="scheduleDate"
-                               ng-pattern='/^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d)$/'
+                               ng-pattern='/^(0[1-9]|1[012])\/([0-2][1-9]|[12][0]|3[0-2])\/((19|20)\d\d)\ ([01][0-9]|2[0-3]):([0-5][0-9])$/'
                                ng-required="true"/>
                     </fieldset>
 
@@ -116,6 +116,12 @@
                                 </select>
                             </label>
                         </div>
+                    </fieldset>
+                    <fieldset>
+                        <label class="label">Comment</label><br> <br>
+                        <input type="text" class="align_right" data-ng-model="scheduleVisitForm.comment"
+                               name="comment"
+                               ng-required="no"/>
                     </fieldset>
                 </form>
             </li>

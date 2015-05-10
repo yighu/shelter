@@ -9,6 +9,7 @@ package com.ffg.shelter.view;
  */
 public class CampScheduleCheckInView {
     private String campName;
+    private String comment;
     private Long campId;
     private boolean checkIn;
     private String scheduleDate;
@@ -32,6 +33,13 @@ public class CampScheduleCheckInView {
         this.scheduleDate = scheduleDate;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment= comment;
+    }
     public String getCampName() {
         return campName;
     }
@@ -71,5 +79,9 @@ public class CampScheduleCheckInView {
     public void setScheduleYear(String scheduleYear) {
         this.scheduleYear = scheduleYear;
     }
+   public String toString(){
 
+    return "campName:"+campName+"\tcomment:"+comment+"\tcampid:"+campId+"\tscheduleDate:"+scheduleDate+"\tscheduleDay:"+scheduleDay+"\tscheduleMonth:"+scheduleMonth+"\tscheduleYear:"+scheduleYear;
+
+	}
 }
