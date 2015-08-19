@@ -13,21 +13,9 @@
         <resthub.spring.stack.version>2.1.2</resthub.spring.stack.version>
         <jetty.version>8.1.7.v20120910</jetty.version>
         <jetty.port>8080</jetty.port>
-        <app.id>shelter-server</app.id>
-        <app.version>1</app.version>
-        <appengine.version>1.9.25</appengine.version>
-        <gcloud.plugin.version>0.9.58.v20150505</gcloud.plugin.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     </properties>
 
     <dependencies>
-	 <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-1.0-sdk</artifactId>
-            <version>${appengine.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.resthub</groupId>
             <artifactId>resthub-jpa</artifactId>
@@ -128,20 +116,6 @@
             <version>3.2.2.RELEASE</version>
         </dependency>
 
-        <!-- Test Dependencies -->
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-testing</artifactId>
-            <version>${appengine.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-stubs</artifactId>
-            <version>${appengine.version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <repositories>
@@ -217,33 +191,6 @@
                     </connectors>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>com.google.appengine</groupId>
-                <artifactId>appengine-maven-plugin</artifactId>
-                <version>${appengine.version}</version>
-                <configuration>
-                    <enableJarClasses>false</enableJarClasses>
-                    <version>${app.version}</version>
-                    <!-- Comment in the below snippet to bind to all IPs instead of just localhost -->
-                    <!-- address>0.0.0.0</address>
-                    <port>8080</port -->
-                    <!-- Comment in the below snippet to enable local debugging with a remote debugger
-                         like those included with Eclipse or IntelliJ -->
-                    <!-- jvmFlags>
-                      <jvmFlag>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n</jvmFlag>
-                    </jvmFlags -->
-                </configuration>
-            </plugin>
-            <plugin>
-              <groupId>com.google.appengine</groupId>
-              <artifactId>gcloud-maven-plugin</artifactId>
-              <version>${gcloud.plugin.version}</version>
-              <configuration>
-                <set_default>true</set_default>
-              </configuration>
-            </plugin>
-
         </plugins>
     </build>
 </project>

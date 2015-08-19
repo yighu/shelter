@@ -154,6 +154,8 @@ function NewsDetailsCtrl($scope, $timeout, $rootScope, $q, $location, NewsFeedSe
    function addCampsToScope() {
         CampService.getAllCamps(function (data) {
                 $scope.camps = data;
+		console.log("camps:");
+		console.log(data);
                 buildCamps();
             },
             function (err) {

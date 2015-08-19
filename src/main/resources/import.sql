@@ -8,6 +8,8 @@ insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(7
 insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(8,'joseph.m.schilling@gmail.com','2014-12-30 23:59:59','Joseph','Schilling','Admin');
 insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(9,'pravenram.g@gmail.com','2014-12-30 23:59:59','Gopu','Praven','Admin');
 insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(10,'5551212@me.com','2014-12-30 23:59:59','Gopu','Praven','Admin');
+insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(11,'xyz@me.com','2014-12-30 23:59:59','me','me','Admin');
+insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(12,'yiguang.hu@gmail.com','2014-12-30 23:59:59','yiguang','hu','Admin');
 
 insert into Role(role_id,roletype) values(1,'Admin') ;
 insert into Role(role_id,roletype) values(2,'Case Manager') ;
