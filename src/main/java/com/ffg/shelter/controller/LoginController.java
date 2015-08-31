@@ -17,11 +17,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 
 @Controller
 public class LoginController {
     private AdminService adminService;
+private static final Logger log=Logger.getLogger(LoginController.class.getName());
 
     @Inject
     @Named("adminService")
@@ -31,37 +33,42 @@ public class LoginController {
 
     @RequestMapping(value = "/login")
     public String login(@RequestParam String redirect, HttpServletResponse response) throws AuthorizationException, IOException {
-        if (redirect != null) {
-
             UserService userService = UserServiceFactory.getUserService();
+	    log.info("Is user loggedin:"+userService.isUserLoggedIn());
             User googleUser = userService.getCurrentUser();
+            log.info("current user googleUser=" + googleUser);
+        	if (redirect == null) {
+		log.info("no redirect set so make it to root page");
+		redirect="#/";
+		}
+
             if (googleUser != null) {
                 try {
                     // have to check is the user is valid in the user store
-                    adminService.getUserIdByEmail(googleUser.getEmail());
+           CsbUser csbUser = adminService.getUserIdByEmail(googleUser.getEmail());
+                log.info("current user CSB USER=" + csbUser);
+                    return "redirect:"+redirect;
                 } catch (AuthorizationException e) {
-                    System.out.println("invalid user a google user but not app user" + e);
-                    return "redirect:#/";
+                    log.info("redirect to login for unauthorised user exception " +e.toString() );
+                return "redirect:" + userService.createLoginURL(redirect);
                 }
 
-                return "redirect:" + userService.createLoginURL(redirect);
             } else {
-                System.out.println("invalid user googleUser=" + googleUser);
-                // Redirect to google login and then navigate to home, as the user is not logged in to google
-                return "redirect:" + userService.createLoginURL("#/");
+                log.info("redirect to login for invalid null user googleUser" );
+                return "redirect:" + userService.createLoginURL(redirect);
             }
-        }
-        throw new IllegalArgumentException("redirect not specified");
     }
 
 
     @RequestMapping(value = "/logout")
     public String logout(@RequestParam String redirect) {
-        if (redirect != null) {
+        if (redirect == null) {
+		redirect="#/";
+		}
+		log.info("log out user");
             UserService userService = UserServiceFactory.getUserService();
             return "redirect:" + userService.createLogoutURL(redirect);
-        }
-        throw new IllegalArgumentException("redirect not specified");
+        
     }
 
     @RequestMapping(value = "/admin")
@@ -76,15 +83,18 @@ public class LoginController {
                 if (googleUser != null) {
 
                     CsbUser csbUser = adminService.getUserIdByEmail(googleUser.getEmail());
+            log.info("in admin csbUser User" + csbUser);
                     role.setUserRole(csbUser.getRole().toString());
                     role.setAdmin(csbUser.getRole() == UserRole.Admin ? true : false);
 
-                }
+                }else{
+			log.info("in admin, user null");
+		}
             }
         } catch (AuthorizationException e) {
-            System.out.println("Not an Admin User" + e);
+            log.info("Not an Admin User" + e);
         } catch (NullPointerException e) {
-            System.out.println("in login controller NullPointerException=" + e);
+            log.info("in login controller NullPointerException=" + e);
         }
         return role;
     }

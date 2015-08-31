@@ -21,11 +21,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import java.util.logging.Logger;
+
 
 @Named("clientTransformer")
 public class ClientTransformerImpl implements ClientTransformer {
 
     private ImageService imageService;
+private static final Logger log=Logger.getLogger(ClientTransformerImpl.class.getName());
 
 
     @Inject
@@ -392,7 +395,7 @@ public class ClientTransformerImpl implements ClientTransformer {
             DateTime now = new DateTime();
             age = Years.yearsBetween(birthDate, now);
         } catch (Exception e) {
-            System.out.println("Exception" + e.getMessage() + dateOfBirth);
+            log.info("Exception" + e.getMessage() + dateOfBirth);
         }
         return age != null ? age.getYears() + "" : "0";
     }

@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import java.util.logging.Logger;
+
 @ControllerAdvice
 public class ExceptionHandlerExceptionResolver extends ResponseEntityExceptionHandler {
 
     private MessageSource messageSource;
 
+private static final Logger log=Logger.getLogger(ExceptionHandlerExceptionResolver.class.getName());
     @Inject
     @Named("messageSource")
     public ExceptionHandlerExceptionResolver(MessageSource messageSource) {
@@ -43,7 +46,7 @@ public class ExceptionHandlerExceptionResolver extends ResponseEntityExceptionHa
         errorMessage.addError("error", ex.getMessage());
 
         for (StackTraceElement stackTraceElement : ex.getStackTrace()) {
-            System.out.println(stackTraceElement.toString() + "\n");
+            log.info(stackTraceElement.toString() + "\n");
         }
         return errorMessage;
     }

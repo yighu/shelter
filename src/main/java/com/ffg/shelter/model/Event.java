@@ -62,6 +62,7 @@ public class Event implements Serializable {
     }
 
     public void setComment(String comment) {
+	if(comment==null)comment="";
         this.comment= comment;
 
 	}

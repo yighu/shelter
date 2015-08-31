@@ -23,12 +23,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.logging.Logger;
+
 
 
 @Controller
 @RequestMapping(value = "/api/news")
 public class NewsController extends ServiceBasedRestController<NewsFeed, Long, NewsFeedService> {
 
+private static final Logger log=Logger.getLogger(NewsController.class.getName());
     private NewsFeedTransformer newsFeedTransformer;
     private EventTransformer eventTransformer;
     private EventController eventController;
@@ -95,11 +98,11 @@ public class NewsController extends ServiceBasedRestController<NewsFeed, Long, N
                                                       @RequestParam(value = "direction", required = false, defaultValue = "") String direction,
                                                       @RequestParam(value = "properties", required = false) String properties) throws Exception {
 
-        System.out.println("BEGIN!!!");
+        log.info("BEGIN!!!");
         Assert.isTrue(page > 0, "Page index must be greater than 0");
-        System.out.println("HI!!!");
+        log.info("HI!!!");
         Assert.isTrue(direction.isEmpty() || direction.equalsIgnoreCase(Sort.Direction.ASC.toString()) || direction.equalsIgnoreCase(Sort.Direction.DESC.toString()), "Direction should be ASC or DESC");
-        System.out.println("WOAH!!!");
+        log.info("WOAH!!!");
         if (direction.isEmpty()) {
             return newsFeedTransformer.buildNewsFeedPage(new PageRequest(page  - 1, size ));
         } else {

@@ -29,39 +29,37 @@ private static final Logger log=Logger.getLogger(GaeAuthenticationFilter.class.g
     private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> ads = new WebAuthenticationDetailsSource();
     private AuthenticationManager authenticationManager;
     private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
-	//http://spring.io/blog/2010/08/02/spring-security-in-google-app-engine/
+//http://spring.io/blog/2010/08/02/spring-security-in-google-app-engine/
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	if(authentication==null){
-	log.info("not authenticated....");
         User googleUser = null;
         HttpServletRequest httpReq = (HttpServletRequest) request;
-
+/*
         if (httpReq.getRequestURL().toString().contains("localhost") || httpReq.getRequestURL().toString().contains("192.168.1")) {
-		log.info("GaeAu/thenticationFilter local test area. should not be if in google" );
-            googleUser = new User("yiguang.hu@gmail.com", "localhost");
+		log.info("GaeAuthenticationFilter local test area. should not be if in google" );
+            googleUser = new User("5551212@me.com", "localhost");
             buildSecurityContext((HttpServletResponse) response, googleUser, httpReq);
             chain.doFilter(request, response);
 
             return;
         }
-
+*/
         UserService userService = UserServiceFactory.getUserService();
         googleUser = userService.getCurrentUser();
         if (googleUser != null) {
-	log.info("googleuser is:"+googleUser);
             buildSecurityContext((HttpServletResponse) response, googleUser, httpReq);
         } else {
         ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-	log.info("google user but not fake it");
+	log.info(" redirect to login from filter because no user loggedin fake it for now");
 
-            //googleUser = new User("yiguang.hu@gmail.com", "localhost");
-           //buildSecurityContext((HttpServletResponse) response, googleUser, httpReq);
+	//response.sendRedirect(userService.createLoginURL("#/"));
+
+            googleUser = new User("yiguang.hu@gmail.com", "localhost");
+           buildSecurityContext((HttpServletResponse) response, googleUser, httpReq);
+	//response.sendRedirect(userService.createLoginURL(request.getRequestURI()));
         }
-	}else{
-	log.info("user authenticated..."+authentication.toString());
-	}
+
         chain.doFilter(request, response);
     }
 
@@ -79,11 +77,6 @@ private static final Logger log=Logger.getLogger(GaeAuthenticationFilter.class.g
             // Setup the security context
             SecurityContextHolder.getContext().setAuthentication(
                     authentication);
-	log.info( authentication.getAuthorities().toString());//.contains(AppRole.NEW_USER);
-          logger.debug("New user authenticated. Redirecting to registration page");
-        //  ((HttpServletResponse)response).sendRedirect(REGISTRATION_URL);
-         // return;
-        
         } catch (AuthenticationException e) {
             // Authentication information was rejected by the
             // authentication manager

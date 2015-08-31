@@ -13,11 +13,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.logging.Logger;
 
 @Transactional
 @Named("eventService")
 public class EventServiceImpl extends CrudServiceImpl<Event, Long, EventRepository> implements EventService {
+	private static final Logger log=Logger.getLogger(EventServiceImpl.class.getName());
     @Override
     @Inject
     public void setRepository(EventRepository eventRepository) {
@@ -48,8 +49,8 @@ public class EventServiceImpl extends CrudServiceImpl<Event, Long, EventReposito
         int value = getMonth();
         Timestamp lowDateRange = convertDate(1, 1);
         Timestamp highDateRange = convertDate(value, 180);
-        System.out.println("lowDateRange=" + lowDateRange);
-        System.out.println("highDateRange=" + highDateRange);
+        log.info("lowDateRange=" + lowDateRange);
+        log.info("highDateRange=" + highDateRange);
         return this.repository.findCampVisitedEventsAndCampScheduleCampVisitedEvents(lowDateRange, highDateRange);
     }
 

@@ -17,11 +17,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import java.util.logging.Logger;
+
 
 @Named("newsFeedTransformer")
 public class NewsFeedTransformerImpl implements NewsFeedTransformer {
 
     private NewsFeedService newsFeedService;
+private static final Logger log=Logger.getLogger(NewsFeedTransformerImpl.class.getName());
     private EventService eventService;
     private CampService campService;
     private AdminService adminService;
@@ -65,9 +68,9 @@ public class NewsFeedTransformerImpl implements NewsFeedTransformer {
         newsFeedView.setId(id.toString());
         newsFeedView.setCampName(getCampNameById(event.getCampId()));
         Calendar eventDate = Calendar.getInstance();
-	System.out.println("event date for newS:"+event.getEventDate());
+	log.info("event date for newS:"+event.getEventDate());
         eventDate.setTimeInMillis(event.getEventDate().getTime());
-	System.out.println("new event date for newS:"+event.getEventDate());
+	log.info("new event date for newS:"+event.getEventDate());
 //new Timestamp(convertDate(campScheduleCheckInView.getScheduleDate()).getTimeInMillis())
         if (eventDate != null) {
             newsFeedView.setCreatedByDate(((1+eventDate.get(Calendar.MONTH)) + "/" + eventDate.get(Calendar.DAY_OF_MONTH) + "/" + eventDate.get(Calendar.YEAR)));
@@ -225,14 +228,14 @@ public class NewsFeedTransformerImpl implements NewsFeedTransformer {
     }
 
     public Page<NewsFeedView> buildNewsFeedPage(PageRequest pageRequest) throws Exception {
-        System.out.println("BUILDINGNEWSPAGE");
+        log.info("BUILDINGNEWSPAGE");
         List<NewsFeedView> listOfNews = new ArrayList<NewsFeedView>();
         Page<Event> pageOfNews = null;
         PageRequest pageRequestResponse = null;
         pageOfNews = this.eventService.findAll(pageRequest);
 
-        System.out.println("SIZE " + pageOfNews.getSize());
-        System.out.println( pageOfNews.getContent());
+        log.info("SIZE " + pageOfNews.getSize());
+        log.info("page contents:"+ pageOfNews.getContent().toString());
         if (pageRequest.getSort() == null) {
             pageRequestResponse = new PageRequest(pageOfNews.getNumber(), pageOfNews.getSize());
 
@@ -241,9 +244,9 @@ public class NewsFeedTransformerImpl implements NewsFeedTransformer {
         }
 
         if (pageOfNews != null) {
-            System.out.println(pageOfNews != null);
+            log.info(" page of news is not null? "+(pageOfNews != null));
             for (Event event : pageOfNews.getContent()) {
-                System.out.println(event);
+                log.info("Event..."+event.toString());
                 listOfNews.add(transformEventToNewsFeed(event));
             }
         }

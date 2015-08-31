@@ -56,6 +56,8 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
 	 console.log(data);
          angular.forEach(data, function(value, key) {
                   var eventListForDay  = buildCampEvent(value.listOfEventsForDay);
+			console.log("day events:");
+			console.log(eventListForDay);
                   var eventStrFinal = {'day': value.day, 'dayEvents' : eventListForDay};
                   this.push(eventStrFinal);
          }, events);
@@ -78,9 +80,10 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
         var campEvent = [];
 	console.log("build camp event");
         angular.forEach(data, function(value, key){
-		
+	console.log("value of value:");	
 	console.log(value);
-	if(!value.comment)value.comment="";
+	console.log("value of comment:"+value.comment);	
+	if(value.comment==null||value.comment=='[object Object]')value.comment="";
            var eventWithCampId = {'campEvent': value.campEvent, 'campId' : value.campId,'comment' : value.comment, 'checkIn': false, 'eventType' : value.eventType};
            this.push(eventWithCampId);
         }, campEvent);
@@ -130,11 +133,15 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
                 addCampsToScope();
     }
     $scope.scheduleVisit = function (scheduleVisitForm) {
+		console.log("scheduleVisitForm and comment");
+		console.log(scheduleVisitForm);
+		console.log(scheduleVisitForm.comment);
+			
                  SchedulerService.scheduleVisit({'campName': scheduleVisitForm.campName, 'comment':scheduleVisitForm.comment,'scheduleDate':scheduleVisitForm.scheduleDate, 'checkIn': false},function (data) {
                            enterSchedulerCalendar();
                            scheduleVisitForm.campName = null;
                            scheduleVisitForm.scheduleDate = null;
-                           scheduleVisitForm.comment= null;
+                           scheduleVisitForm.comment= "";
 
                          },function (err) {
                               console.log(err);
@@ -157,8 +164,10 @@ function SchedulerCtrl($scope, $location, $window, $filter, CampService, Schedul
     function buildCamps(){
           var values = $scope.camps;
           $scope.campsNamesList = [];
+	console.log("buildcamps");
           angular.forEach(values, function(value, key){
             var campName =   value.name;
+		console.log(value);
             this.push(campName);
           }, $scope.campsNamesList);
     }

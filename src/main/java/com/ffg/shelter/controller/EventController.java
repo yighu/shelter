@@ -23,11 +23,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import java.util.logging.Logger;
+
 
 @Controller
 @RequestMapping(value = "/api/event")
 public class EventController extends ServiceBasedRestController<Event, Long, EventService> {
     private AdminService adminService;
+private static final Logger log=Logger.getLogger(EventController.class.getName());
 
     @Inject
     @Named("adminService")
@@ -53,14 +56,14 @@ public class EventController extends ServiceBasedRestController<Event, Long, Eve
     @RequestMapping(value = "campCheckIn")
     @ResponseBody
     public void checkInCamp(@RequestBody CampScheduleCheckInView campScheduleCheckInView) throws Exception {
-	System.out.println ("check in camp :"+campScheduleCheckInView.getCampId()+" ---"+campScheduleCheckInView.getComment());
+	log.info ("check in camp :"+campScheduleCheckInView.getCampId()+" ---"+campScheduleCheckInView.getComment());
         this.service.create(eventTransformer.transformToEntityFromCampScheduleCheckInView(campScheduleCheckInView));
     }
 
     @RequestMapping(value = "scheduleVisit")
     @ResponseBody
     public void scheduleCampVisit(@RequestBody CampScheduleCheckInView campScheduleCheckInView) throws Exception {
-	System.out.println ("schedule camp vist :"+campScheduleCheckInView.toString());
+	log.info ("schedule camp vist :"+campScheduleCheckInView.toString());
         this.service.create(eventTransformer.transformToEntityFromCampScheduleCheckInView(campScheduleCheckInView));
     }
 
@@ -76,12 +79,12 @@ public class EventController extends ServiceBasedRestController<Event, Long, Eve
     public List<SchedulerCampView> allCampSchedule(@RequestParam(value = "byUser", required = false) boolean byUser) throws IOException, BusinessException, AuthorizationException, ParseException {
         Long userId = null;
         CsbUser csbUser = adminService.getUser();
-	System.out.println("get all event schedules");
+	log.info("get all event schedules");
         return eventTransformer.transformFromEntityToSchedulerCampView(this.service.findCampVisitedEventsAndCampScheduleCampVisitedEvents());
     }
 
     public List<Event> allEvent() throws ParseException {
-	System.out.println("get all event");
+	log.info("get all event");
         return this.service.getAllEvents();
     }
 }

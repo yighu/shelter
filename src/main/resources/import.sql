@@ -10,6 +10,8 @@ insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(9
 insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(10,'5551212@me.com','2014-12-30 23:59:59','Gopu','Praven','Admin');
 insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(11,'xyz@me.com','2014-12-30 23:59:59','me','me','Admin');
 insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(12,'yiguang.hu@gmail.com','2014-12-30 23:59:59','yiguang','hu','Admin');
+insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(13,'yhu@colcsb.org','2014-12-30 23:59:59','y csb','hu','Admin');
+insert into CsbUser (USER_ID,EMAIL,EXPIRYDATE,FIRSTNAME,LASTNAME, ROLE) Values(14,'liannabarbu@colcsb.org','2014-12-30 23:59:59','lianna','barbu','Admin');
 
 insert into Role(role_id,roletype) values(1,'Admin') ;
 insert into Role(role_id,roletype) values(2,'Case Manager') ;
@@ -25,5 +27,5 @@ insert into Feature_Role(feature_id,role_id) values(3,3);
 insert into Feature_PrivilegeType(feature_id,privilegetype_id) values(1,1);
 insert into Feature_PrivilegeType(feature_id,privilegetype_id) values(2,1);
 insert into Feature_PrivilegeType(feature_id,privilegetype_id) values(3,2);
-
+insert into Camp( camp_id, alert , badge, description , latitude , longitude , name , scrubDate , setUpDate , status , streetAddress , type ) values(1,1,'Armed','tests na','19.5','222.5','rear','12/12/1999','12/12/1999',1,'123 sdsd','a');
 

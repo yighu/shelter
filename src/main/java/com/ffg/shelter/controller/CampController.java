@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,6 +32,7 @@ import java.util.List;
 @RequestMapping(value = "/api/camp")
 public class CampController extends ServiceBasedRestController<Camp, Long, CampService> {
 
+private static final Logger log=Logger.getLogger(CampController.class.getName());
     private CampTransformer campTransformer;
 
     private FeatureService featureService;
@@ -118,9 +120,11 @@ public class CampController extends ServiceBasedRestController<Camp, Long, CampS
     @ResponseBody
     public List<CampListView> findAllCamps() throws Exception, AuthorizationException {
         List<CampListView> listOfCamps = new ArrayList<CampListView>();
+	log.info("list Camps...");
         //TODO
         //     featureService.isUserAuthorizationForFeature("camps");
         for (Camp camp : this.service.findAll()) {
+	log.info("Camp..."+camp.toString());
             if (camp.getStatus() == CampStatus.Active||camp.getStatus() == CampStatus.ToBeRemediated) {
                 listOfCamps.add(campTransformer.transformFromEntityToListView(camp));
             }
@@ -144,8 +148,11 @@ public class CampController extends ServiceBasedRestController<Camp, Long, CampS
                                                     @RequestParam(value = "direction", required = false, defaultValue = "") String direction,
                                                     @RequestParam(value = "properties", required = false) String properties) throws Exception {
 
+	log.info("listByPage.."+page);
         Assert.isTrue(page > 0, "Page index must be greater than 0");
+	log.info("listByPage..1");
         Assert.isTrue(direction.isEmpty() || direction.equalsIgnoreCase(Sort.Direction.ASC.toString()) || direction.equalsIgnoreCase(Sort.Direction.DESC.toString()), "Direction should be ASC or DESC");
+	log.info("listByPage..2");
         if (direction.isEmpty()) {
             return campTransformer.buildCampsViewPage(new PageRequest(page - 1, size));
         } else {

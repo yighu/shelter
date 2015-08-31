@@ -16,11 +16,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import java.util.logging.Logger;
+
 
 @Named("eventTransformer")
 public class EventTransformerImpl implements EventTransformer {
 
     private AdminService adminService;
+private static final Logger log=Logger.getLogger(EventTransformerImpl.class.getName());
 
     @Inject
     @Named("adminService")
@@ -53,7 +56,7 @@ public class EventTransformerImpl implements EventTransformer {
     }
 
     public Event transformToEntityFromCampScheduleCheckInView(CampScheduleCheckInView campScheduleCheckInView) throws ParseException, BusinessException, AuthorizationException {
-
+	log.info("Schedule to save..."+campScheduleCheckInView.toString());
         Event event = new Event();
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.roll(Calendar.MONTH, 30);
@@ -61,20 +64,23 @@ public class EventTransformerImpl implements EventTransformer {
         CsbUser csbUser = adminService.getUser();
         event.setEventOwner(csbUser.getId());
 
-	System.out.println("camp sche check in view:"+campScheduleCheckInView.toString());
-	System.out.println("scheduledat:"+campScheduleCheckInView.getScheduleDate());
+	log.info("camp sche check in view:"+campScheduleCheckInView.toString());
+	            log.info("scheduledat:"+campScheduleCheckInView.getScheduleDate());
         if (campScheduleCheckInView.isCheckIn()) {
+			log.info("camp sche check in ");
             event.setCampId(campScheduleCheckInView.getCampId());
             event.setEventDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
             event.setEventType(EventType.CampVisited);
             event.setComment(campScheduleCheckInView.getComment());
         } else {
+			log.info("camp sche not check in ");
             event.setCampId(campService.findIdByCampName(campScheduleCheckInView.getCampName()).getId());
             event.setEventDate(new Timestamp(convertDate(campScheduleCheckInView.getScheduleDate()).getTimeInMillis()));
             event.setEventType(EventType.ScheduleCampVisit);
             event.setComment(campScheduleCheckInView.getComment());
 
         }
+	log.info("event generated..."+event.toString());
         return event;
     }
 
@@ -101,7 +107,7 @@ public class EventTransformerImpl implements EventTransformer {
         for (Event event : allEvents) {
             if ((event.getEventType() == EventType.CampVisited) || (event.getEventType() == EventType.ScheduleCampVisit)) {
 
-		System.out.println("event date:"+event.getEventDate());
+		log.info("event date:"+event.getEventDate());
                 Calendar eventDate = Calendar.getInstance(); //TBD Fixed. this should be the date/time that was set from web
                 eventDate.setTimeInMillis(event.getEventDate().getTime());
                 int day = eventDate.get(Calendar.DAY_OF_MONTH);
@@ -247,12 +253,12 @@ public class EventTransformerImpl implements EventTransformer {
         Calendar eDate = Calendar.getInstance();
         int hour = eDate.get(Calendar.HOUR);
         eDate.clear();
-	System.out.println("input date:"+date);
+	log.info("input date:"+date);
         if (date != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm");
             eDate.setTime(formatter.parse(date));
         }
-	System.out.println("output date:"+DateFormat.getDateInstance().format(eDate.getTime()));
+	log.info("output date:"+DateFormat.getDateInstance().format(eDate.getTime()));
 
         //eDate.set(Calendar.HOUR_OF_DAY, hour);
         return eDate;

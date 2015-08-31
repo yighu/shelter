@@ -28,6 +28,7 @@ public class SchedulerEventView {
     }
 
     public void setComment(String comment) {
+	if(comment==null)comment="";
         this.comment= comment;
     }
 
